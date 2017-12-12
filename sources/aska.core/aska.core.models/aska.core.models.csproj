@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4849FCBD-07E2-4164-973F-ED8D8FED9E60}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aska.core.models</RootNamespace>
+    <AssemblyName>aska.core.models</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\shared\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ApplicationConfiguration\ApplicationConfigurationEntity.cs" />
+    <Compile Include="Attachments\FileAttachmentType.cs" />
+    <Compile Include="Mapper\MergeCollectionValueResolver.cs" />
+    <Compile Include="Mapper\ObjectEntityToObjectEntityMapperProfile.cs" />
+    <Compile Include="Mapper\ObjectEntityToPublicMenuItemMapperProfile.cs" />
+    <Compile Include="Mapper\ObjectParameterValueToObjectParameterValueMapperProfile.cs" />
+    <Compile Include="Mapper\SymmetricEntityMappersAutofacModule.cs" />
+    <Compile Include="MetaValueTypes\ISerializedMetaValue.cs" />
+    <Compile Include="MetaValueTypes\MetaBool.cs" />
+    <Compile Include="MetaValueTypes\MetaDateTime.cs" />
+    <Compile Include="MetaValueTypes\MetaEnum.cs" />
+    <Compile Include="MetaValueTypes\MetaGuid.cs" />
+    <Compile Include="MetaValueTypes\MetaInt.cs" />
+    <Compile Include="MetaValueTypes\MetaJsonObject.cs" />
+    <Compile Include="MetaValueTypes\MetaObject.cs" />
+    <Compile Include="MetaValueTypes\MetaPhone.cs" />
+    <Compile Include="MetaValueTypes\MetaString.cs" />
+    <Compile Include="MetaValueTypes\MetaStringArray.cs" />
+    <Compile Include="MetaValueTypes\MetaValueType.cs" />
+    <Compile Include="ObjectEntitySchema\Attachments\FileAttachmentType.cs" />
+    <Compile Include="ObjectEntitySchema\Attachments\ObjectAttachment.cs" />
+    <Compile Include="ObjectEntitySchema\Attachments\ObjectAttachmentVariant.cs" />
+    <Compile Include="ObjectEntitySchema\Attachments\ObjectAttachmentVariantsState.cs" />
+    <Compile Include="ObjectEntitySchema\Commands\CreateObjectEntityCommand.cs" />
+    <Compile Include="ObjectEntitySchema\Commands\DeleteObjectEntityCommand.cs" />
+    <Compile Include="ObjectEntitySchema\Commands\ForceDeleteObjectEntityCommand.cs" />
+    <Compile Include="ObjectEntitySchema\Commands\ObjectEntityCommandsModule.cs" />
+    <Compile Include="ObjectEntitySchema\Commands\UpdateObjectEntityCommand.cs" />
+    <Compile Include="ObjectEntitySchema\Extensions\Values\ObjectEntity_Values.cs" />
+    <Compile Include="ObjectEntitySchema\Extensions\Values\ParameterValuesCollectionWrapper.cs" />
+    <Compile Include="ObjectEntitySchema\Extensions\Values\TypedValue.cs" />
+    <Compile Include="ObjectEntitySchema\ObjectEntity.cs" />
+    <Compile Include="ObjectEntitySchema\ObjectParameter.cs" />
+    <Compile Include="ObjectEntitySchema\ObjectParameterCategory.cs" />
+    <Compile Include="ObjectEntitySchema\ObjectParameterKey.cs" />
+    <Compile Include="ObjectEntitySchema\ObjectParameterValue.cs" />
+    <Compile Include="ObjectEntitySchema\ObjectParameterValueType.cs" />
+    <Compile Include="ObjectEntitySchema\ObjectType.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectAttachment_Variants.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Brand.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Caompaign_AvaThanks.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Caompaign_SecretMission.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Common.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Event.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Interaction.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Investment.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Notification.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Realty.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_RealtyBoard.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Resale.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectEntity_Vacancy.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectParameterValue_Common.cs" />
+    <Compile Include="ObjectEntitySchema\Rules\ObjectParameter_Common.cs" />
+    <Compile Include="ObjectEntitySchema\Security\EditPermissionAttribute.cs" />
+    <Compile Include="ObjectEntitySchema\Security\IsPublicAttribute.cs" />
+    <Compile Include="ObjectEntitySchema\Security\ViewPermissionAttribute.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\EntitiesByIdSpecification.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\EntitiesByObjectTypeSpecification.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\EntitiesByParameterValueExactMatchSpecification.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\EntityAccessEligibility\EligibleObjectEntitySpecification.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\InteractionChannelByIdentifierSpecification.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\ObjectParameterValuesByObjectEntityIdExpressionSpecification.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\ParameterByObjectTypeSpecification.cs" />
+    <Compile Include="ObjectEntitySchema\Specifications\RoleByNameSpecification.cs" />
+    <Compile Include="User\UserIdentity.cs" />
+    <Compile Include="User\UserIdentityProviderKind.cs" />
+    <Compile Include="User\UserPrincipal.cs" />
+    <Compile Include="User\UserRole.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
