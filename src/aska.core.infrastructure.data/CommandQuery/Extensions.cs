@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Interfaces;
-using kd.infrastructure.CommandQuery.Specification;
+using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.CommandQuery.Specification;
 
-namespace kd.infrastructure.CommandQuery
+namespace aska.core.infrastructure.data.CommandQuery
 {
     public static class Extensions
     {

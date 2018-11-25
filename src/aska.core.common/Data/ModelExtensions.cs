@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace kd.domainmodel
+namespace aska.core.common.Data
 {
     public static class Args
     {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace kd.misc
+﻿namespace aska.core.common.Extensions
 {
     public enum RuntimeOsType
     {

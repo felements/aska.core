@@ -1,15 +1,17 @@
-﻿using Autofac;
-using kd.domainmodel.Entity;
+﻿using System.Threading.Tasks;
+using aska.core.common.Data.Entity;
+using Autofac;
 
-namespace kd.infrastructure.CommandQuery.Command
+namespace aska.core.infrastructure.data.CommandQuery.Command
 {
     public class CreateEntityCommand<T> : UnitOfWorkScopeCommand<T>
         where T : class, IEntity
     {
-        public override void Execute(T context)
+        public override async Task ExecuteAsync(T context)
         {
-            GetFromScope().Save(context);
-            GetFromScope().Commit();
+            var uow = GetFromScope();
+            uow.Save(context);
+            await uow.CommitAsync();
         }
 
         public CreateEntityCommand(ILifetimeScope scope) : base(scope)

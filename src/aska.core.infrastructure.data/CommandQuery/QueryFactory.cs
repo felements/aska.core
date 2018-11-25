@@ -1,8 +1,8 @@
-﻿using Autofac;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Interfaces;
+﻿using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using Autofac;
 
-namespace kd.infrastructure.CommandQuery
+namespace aska.core.infrastructure.data.CommandQuery
 {
     public class QueryFactory : IQueryFactory
     {

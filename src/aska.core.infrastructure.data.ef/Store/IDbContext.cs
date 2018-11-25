@@ -1,10 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using kd.domainmodel.Entity;
+using aska.core.common.Data.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace kd.infrastructure.Store
+namespace aska.core.infrastructure.data.ef.Store
 {
     public interface IDbContext
     {

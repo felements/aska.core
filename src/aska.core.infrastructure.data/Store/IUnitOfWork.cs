@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using kd.domainmodel.Entity;
+using aska.core.common.Data.Entity;
 
-namespace kd.infrastructure.Store
+namespace aska.core.infrastructure.data.Store
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -1,12 +1,14 @@
-﻿namespace kd.infrastructure.CommandQuery.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {
     public interface ICommand
     {
-        void Execute();
+        Task ExecuteAsync();
     }
 
     public interface ICommand<in T>
     {
-        void Execute(T context);
+        Task ExecuteAsync(T context);
     }
 }

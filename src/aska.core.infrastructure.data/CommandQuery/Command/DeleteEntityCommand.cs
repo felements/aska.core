@@ -1,7 +1,8 @@
-﻿using Autofac;
-using kd.domainmodel.Entity;
+﻿using System.Threading.Tasks;
+using aska.core.common.Data.Entity;
+using Autofac;
 
-namespace kd.infrastructure.CommandQuery.Command
+namespace aska.core.infrastructure.data.CommandQuery.Command
 {
     public class DeleteEntityCommand<T> : UnitOfWorkScopeCommand<T>
         where T : class, IEntity
@@ -10,20 +11,22 @@ namespace kd.infrastructure.CommandQuery.Command
         {
         }
 
-        public override void Execute(T context)
+        public override async Task ExecuteAsync(T context)
         {
-            var fakeDeleted = context as IEntityFakeDeleted;
-            if (fakeDeleted != null)
+            var uow = GetFromScope();
+
+            if (context is IEntityFakeDeleted fakeDeleted)
             {
                 fakeDeleted.IsDeleted = true;
-                GetFromScope().Save(context);
+                uow.Save(context);
             }
             else
             {
-                GetFromScope().Delete(context);
+                uow.Delete(context);
             }
-            
-            GetFromScope().Commit();
+
+            await uow.CommitAsync();
         }
+
     }
 }

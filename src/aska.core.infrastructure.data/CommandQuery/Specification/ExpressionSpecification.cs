@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Interfaces;
+using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
 
-namespace kd.infrastructure.CommandQuery.Specification
+namespace aska.core.infrastructure.data.CommandQuery.Specification
 {
     public class ExpressionSpecification<T> : IExpressionSpecification<T>
         where T : class, IEntity

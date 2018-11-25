@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using kd.domainmodel.Entity;
+using aska.core.common.Data.Entity;
 
-namespace kd.infrastructure.CommandQuery.Interfaces
+namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {
     public interface IFulltextMatchSpecification<T> : ISpecification<T>
         where T : class, IEntity

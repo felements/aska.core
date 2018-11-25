@@ -1,6 +1,6 @@
-﻿using kd.domainmodel.Entity;
+﻿using aska.core.common.Data.Entity;
 
-namespace kd.infrastructure.CommandQuery.Interfaces
+namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {
     public interface ISpecification<in T>
          where T : IEntity

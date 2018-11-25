@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Interfaces;
-using kd.infrastructure.Store;
+using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.ef.Store;
 
-namespace kd.infrastructure.CommandQuery.Query
+namespace aska.core.infrastructure.data.ef.Query
 {
     public class FulltextDbQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
         where TEntity : class, IEntity
-        where TSpecification: class, IFulltextMatchSpecification<TEntity>
+        where TSpecification : class, IFulltextMatchSpecification<TEntity>
     {
         private readonly IDbContext _ctx;
-        
+
         public FulltextDbQuery(IDbContext ctx)
         {
             _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
@@ -33,8 +32,8 @@ namespace kd.infrastructure.CommandQuery.Query
         {
             var tableName = _ctx.GetTableName<TEntity>();
             var selectors = specification.FieldSelectors
-                .Select(s => s.ToString().Split(new char[]{'.'}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? string.Empty)
-                .Where(s=>!string.IsNullOrWhiteSpace(s))
+                .Select(s => s.ToString().Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? string.Empty)
+                .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToArray();
 
             var cmd = new FulltextMatchCommand(tableName, selectors, specification.SearchQuery);
@@ -48,11 +47,7 @@ namespace kd.infrastructure.CommandQuery.Query
             throw new NotImplementedException();
         }
 
-        public IQuery<TEntity, TSpecification> Include<TProperty>(Expression<Func<TEntity, TProperty>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public TEntity Single()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
@@ -112,7 +107,7 @@ namespace kd.infrastructure.CommandQuery.Query
 
                 if (string.IsNullOrWhiteSpace(tblName)) throw new ArgumentOutOfRangeException(nameof(tblName));
                 _tableName = tblName;
-                _columns = columns ?? new string[]{};
+                _columns = columns ?? new string[] { };
                 _query = query ?? new string[] { };
             }
 
@@ -125,14 +120,14 @@ namespace kd.infrastructure.CommandQuery.Query
             public static implicit operator string(FulltextMatchCommand cmd)
             {
                 return cmd.ToString();
-            } 
+            }
 
             public override string ToString()
             {
-                return string.Format(FulltextMatchCommandTemplate, 
+                return string.Format(FulltextMatchCommandTemplate,
                     _tableName,
                     string.Join(",", _columns),
-                    string.Join(" ", _query)  
+                    string.Join(" ", _query)
                     );
             }
 

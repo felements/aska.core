@@ -1,12 +1,8 @@
-using Nancy;
-using kd.misc;
-
-
-namespace kd.host
+namespace aska.core.common.Extensions
 {
-    public class AssemblyRootPathProvider: IRootPathProvider
+    public static class AssemblyRootPathProvider//: IRootPathProvider
     {
-        public string GetRootPath()
+        public static string GetRootPath()
         {
             var d = AssemblyExtensions.AssemblyDirectory;
             return d;

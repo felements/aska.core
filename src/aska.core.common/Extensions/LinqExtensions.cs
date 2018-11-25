@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace kd.misc
+namespace aska.core.common.Extensions
 {
     public static  class LinqExtensions
     {

@@ -1,4 +1,4 @@
-﻿namespace kd.misc
+﻿namespace aska.core.common.Extensions
 {
     public static partial class ApplicationExtensions
     {

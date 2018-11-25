@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Query;
+using aska.core.common.Data.Entity;
 
-namespace kd.infrastructure.CommandQuery.Interfaces
+namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {
     public interface IQuery<TEntity, in TSpecification>
         where TEntity : class, IEntity
@@ -19,7 +17,7 @@ namespace kd.infrastructure.CommandQuery.Interfaces
            Expression<Func<TEntity, TProperty>> expression,
            SortOrder sortOrder = SortOrder.Ascending);
 
-        IQuery<TEntity, TSpecification> Include<TProperty>(Expression<Func<TEntity, TProperty>> expression);
+        //IQuery<TEntity, TSpecification> Include<TProperty>(Expression<Func<TEntity, TProperty>> expression);
 
         TEntity Single();
 
@@ -35,6 +33,4 @@ namespace kd.infrastructure.CommandQuery.Interfaces
 
         long Count();
     }
-
-    
 }

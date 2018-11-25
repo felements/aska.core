@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace kd.misc
+namespace aska.core.common.Extensions
 {
     public static class AssemblyExtensions
     {

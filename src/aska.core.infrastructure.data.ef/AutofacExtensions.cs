@@ -1,19 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using aska.core.infrastructure.data.CommandQuery;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.CommandQuery.Query;
+using aska.core.infrastructure.data.CommandQuery.Specification;
+using aska.core.infrastructure.data.ef.Store;
+using aska.core.infrastructure.data.Store;
 using Autofac;
-using kd.infrastructure.CommandQuery;
-using kd.infrastructure.CommandQuery.Interfaces;
-using kd.infrastructure.CommandQuery.Query;
-using kd.infrastructure.CommandQuery.Specification;
-using kd.misc;
 using NLog;
 
-namespace kd.infrastructure
+namespace aska.core.infrastructure.data.ef
 {
-    public class AutofacModule : Module
+    public static class AutofacExtensions
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        protected override void Load(ContainerBuilder builder)
+        public static void RegisterEfCqrs(this ContainerBuilder builder)
         {
             // Command & Query registrations
             Logger.Debug("Register Command&Query components");
@@ -21,19 +21,20 @@ namespace kd.infrastructure
                 .As(typeof(IExpressionSpecification<>))
                 .InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(FulltextMatchSpecification<>))
-                .As(typeof(IFulltextMatchSpecification<>))
-                .InstancePerLifetimeScope();
+            //builder.RegisterGeneric(typeof(FulltextMatchSpecification<>))
+            //    .As(typeof(IFulltextMatchSpecification<>))
+            //    .InstancePerLifetimeScope();
 
-            builder.RegisterGeneric(typeof(FulltextDbQuery<,>))
-                .As(typeof(IQuery<,>))
-                .InstancePerDependency();
+            //builder.RegisterGeneric(typeof(FulltextDbQuery<,>))
+            //    .As(typeof(IQuery<,>))
+            //    .InstancePerDependency();
 
             builder.RegisterGeneric(typeof(DbQuery<,>))
                 .As(typeof(IQuery<,>))
+                .WithParameter(
+                    (info, context) => info.Name == "dbsetQueryCreator", 
+                    (info, context) => context.Resolve<IDbContext>() )//todo: check it
                 .InstancePerDependency(); //IMPORTANT! Not perScope!
-
-
 
             builder.RegisterGeneric(typeof(ByIdExpressionSpecification<>))
                 .As(typeof(ISpecification<>))
@@ -48,13 +49,10 @@ namespace kd.infrastructure
                 .InstancePerLifetimeScope();
 
             // Legacy Repository registrations
-
             Logger.Debug("Register UnitOfWork");
             builder.RegisterType<UnitOfWork>()
                 .As<IUnitOfWork>()
                 .InstancePerDependency();
-
-
         }
     }
 }

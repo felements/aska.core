@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Interfaces;
-using kd.infrastructure.Store;
+using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
 
-namespace kd.infrastructure.CommandQuery.Query
+namespace aska.core.infrastructure.data.CommandQuery.Query
 {
     public class DbQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
         where TEntity : class, IEntity
@@ -15,10 +13,11 @@ namespace kd.infrastructure.CommandQuery.Query
     {
         private IQueryable<TEntity> _query;
 
-        public DbQuery(IDbContext ctx)
+        public DbQuery(Func<IQueryable<TEntity>> dbsetQueryCreator)
         {
-            if (ctx == null) throw new ArgumentNullException(nameof(ctx));
-            _query = ctx.GetDbSet<TEntity>().AsQueryable();
+            _query = dbsetQueryCreator();
+            //if (ctx == null) throw new ArgumentNullException(nameof(ctx));
+            //_query = ctx.GetDbSet<TEntity>().AsQueryable();
         }
 
         public IEnumerable<TEntity> All()
@@ -40,14 +39,6 @@ namespace kd.infrastructure.CommandQuery.Query
         {
             return _query.FirstOrDefault();
         }
-        
-
-        public IQuery<TEntity, TSpecification> Include<TProperty>(Expression<Func<TEntity, TProperty>> expression)
-        {
-            throw new NotImplementedException();  //todo
-            //_query = _query.Include(expression);
-            //return this;
-        }
 
         public IQuery<TEntity, TSpecification> OrderBy<TProperty>(Expression<Func<TEntity, TProperty>> expression, SortOrder sortOrder = SortOrder.Ascending)
         {
@@ -57,7 +48,7 @@ namespace kd.infrastructure.CommandQuery.Query
             _query = ordered;
             return this;
         }
-
+       
         public IEnumerable<TEntity> Paged(int? pageNumber, int? take)
         {
             return take.HasValue

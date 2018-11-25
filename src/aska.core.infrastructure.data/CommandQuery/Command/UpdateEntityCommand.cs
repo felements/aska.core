@@ -1,7 +1,7 @@
-﻿using Autofac;
-using kd.domainmodel.Entity;
+﻿using aska.core.common.Data.Entity;
+using Autofac;
 
-namespace kd.infrastructure.CommandQuery.Command
+namespace aska.core.infrastructure.data.CommandQuery.Command
 {
     public class UpdateEntityCommand<T> : CreateEntityCommand<T>
         where T : class, IEntity

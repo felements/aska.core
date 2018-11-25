@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace kd.domainmodel.Entity
+namespace aska.core.common.Data.Entity
 {
     public interface IEntityChangeTrace
     {

@@ -1,9 +1,10 @@
-﻿using Autofac;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Interfaces;
-using kd.infrastructure.Store;
+﻿using System.Threading.Tasks;
+using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.Store;
+using Autofac;
 
-namespace kd.infrastructure.CommandQuery.Command
+namespace aska.core.infrastructure.data.CommandQuery.Command
 {
     public class UnitOfWorkScopeCommand<T> : ICommand<T> where T : class, IEntity
     {
@@ -19,8 +20,9 @@ namespace kd.infrastructure.CommandQuery.Command
             return Scope.Resolve<IUnitOfWork>();
         }
 
-        public virtual void Execute(T context)
+        public virtual Task ExecuteAsync(T context)
         {
+            return Task.CompletedTask;
         }
     }
 }

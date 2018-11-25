@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using kd.domainmodel.Entity;
+using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.Store;
 using Microsoft.EntityFrameworkCore;
-using NLog;
 
-namespace kd.infrastructure.Store
+namespace aska.core.infrastructure.data.ef.Store
 {
     internal class UnitOfWork : IUnitOfWork
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private IDbContext _ctx;
 
         public UnitOfWork(IDbContext ctx)
         {
             _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
-            Logger.Trace("Constructing UOW with context id: {0}", ctx.Id);
         }
 
-        private IDbContext _ctx;
-
-        async Task IUnitOfWork.CommitAsync()
+        public async Task CommitAsync()
         {
-            return await CommitAsync();
+            await _ctx.SaveChangesAsync();
         }
 
         public void Save<TEntity>(TEntity entity) where TEntity : class, IEntity
@@ -42,17 +39,7 @@ namespace kd.infrastructure.Store
             var entity = dbSet.SingleOrDefault(x => x.Id == id);
             if (entity != null) dbSet.Remove(entity);
         }
-
-        public int Commit()
-        {
-            return _ctx.SaveChanges();
-        }
-
-        public async Task<int> CommitAsync()
-        {
-            return await _ctx.SaveChangesAsync();
-        }
-
+        
         public void Dispose()
         {
             _ctx = null;
@@ -61,8 +48,6 @@ namespace kd.infrastructure.Store
         private void SaveInternal<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
             IQueryable<TEntity> set = _ctx.GetDbSet<TEntity>();
-
-        
 
             var dbentity = set.FirstOrDefault(e => entity.Id.Equals(e.Id));
             if (dbentity != null)

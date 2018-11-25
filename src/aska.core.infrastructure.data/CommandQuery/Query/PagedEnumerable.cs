@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using kd.infrastructure.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
 
-namespace kd.infrastructure.CommandQuery.Query
+namespace aska.core.infrastructure.data.CommandQuery.Query
 {
     public class PagedEnumerable<T> : List<T>, IPagedEnumerable<T>
     {

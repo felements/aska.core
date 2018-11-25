@@ -1,7 +1,7 @@
 ﻿using System;
-using kd.domainmodel.Entity;
+using aska.core.common.Data.Entity;
 
-namespace kd.infrastructure.CommandQuery.Specification
+namespace aska.core.infrastructure.data.CommandQuery.Specification
 {
     public class ByIdExpressionSpecification<TEntity> : ExpressionSpecification<TEntity> where TEntity : class, IEntity
     {

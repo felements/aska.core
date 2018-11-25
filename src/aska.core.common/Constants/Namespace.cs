@@ -1,4 +1,4 @@
-﻿namespace kd.misc.Constants
+﻿namespace aska.core.common.Constants
 {
     public static class Namespace
     {

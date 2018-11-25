@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace kd.infrastructure.CommandQuery.Interfaces
+namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {
     public interface IPagedEnumerable<out T> : IEnumerable<T>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Interfaces;
+using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Interfaces;
 
-namespace kd.infrastructure.CommandQuery.Specification
+namespace aska.core.infrastructure.data.CommandQuery.Specification
 {
     public class FulltextMatchSpecification<TEntity> : IFulltextMatchSpecification<TEntity> where TEntity: class, IEntity
     {

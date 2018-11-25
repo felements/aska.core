@@ -1,7 +1,7 @@
-﻿using kd.domainmodel.Entity;
-using kd.infrastructure.CommandQuery.Command;
+﻿using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.CommandQuery.Command;
 
-namespace kd.infrastructure.CommandQuery.Interfaces
+namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {
     public interface ICommandFactory
     {

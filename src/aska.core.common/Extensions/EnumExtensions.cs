@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace kd.misc
+namespace aska.core.common.Extensions
 {
     public class EnumValue<T> where T : struct
     {
