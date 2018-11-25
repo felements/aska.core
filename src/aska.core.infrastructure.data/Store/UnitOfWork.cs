@@ -19,14 +19,9 @@ namespace kd.infrastructure.Store
 
         private IDbContext _ctx;
 
-        Task IUnitOfWork.CommitAsync()
+        async Task IUnitOfWork.CommitAsync()
         {
-            return CommitAsync();
-        }
-
-        void IUnitOfWork.Commit()
-        {
-            _ctx.SaveChanges();
+            return await CommitAsync();
         }
 
         public void Save<TEntity>(TEntity entity) where TEntity : class, IEntity
@@ -67,6 +62,7 @@ namespace kd.infrastructure.Store
         {
             IQueryable<TEntity> set = _ctx.GetDbSet<TEntity>();
 
+        
 
             var dbentity = set.FirstOrDefault(e => entity.Id.Equals(e.Id));
             if (dbentity != null)

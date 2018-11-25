@@ -8,9 +8,7 @@ namespace kd.infrastructure.Store
 {
     public interface IDbContext
     {
-        string Id { get; }
         DbSet<T> GetDbSet<T>() where T : class;
-        int SaveChanges();
         Task<int> SaveChangesAsync();
         EntityEntry Entry(object o);
         void Dispose();

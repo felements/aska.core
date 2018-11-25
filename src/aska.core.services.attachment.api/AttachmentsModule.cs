@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using kd.domainmodel.Attachment;
 using kd.infrastructure.CommandQuery.Interfaces;
 using kd.infrastructure.CommandQuery.Specification;

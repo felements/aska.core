@@ -18,6 +18,9 @@ namespace kd.infrastructure.mysql.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
+
+
             optionsBuilder.UseMySql(GetConnectionString());
 
             // load model
@@ -120,7 +123,7 @@ namespace kd.infrastructure.mysql.Context
             if (string.IsNullOrWhiteSpace(command)) throw new ArgumentOutOfRangeException(nameof(command));
 
             Logger.Warn("Executing raw SQL command: " + command);
-            this.Database.ExecuteSqlCommand(command);
+            this.Database.ExecuteRawSqlCommand(command);
         }
 
         public IQueryable<T> ExecuteRawSqlQuery<T>(string query, params object[] parameters) where T : class
