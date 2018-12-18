@@ -1,9 +1,6 @@
-﻿using Autofac;
-using kd.infrastructure.mysql.Context;
-using kd.infrastructure.Store;
-using NLog;
+﻿using System.Refructure.mysql.Context;
 
-namespace kd.infrastructure.mysql
+namespace aska.core.infrastructure.data.mysql
 {
     public class AutofacModule : Module
     {
