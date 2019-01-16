@@ -1,5 +1,5 @@
 ﻿using System;
-using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.Model;
 
 namespace aska.core.infrastructure.data.CommandQuery.Specification
 {

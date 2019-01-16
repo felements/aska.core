@@ -1,4 +1,4 @@
-﻿using aska.core.common.Data.Entity;
+﻿using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using Autofac;
 
