@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.Model;
 using Autofac;
 
 namespace aska.core.infrastructure.data.CommandQuery.Command

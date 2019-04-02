@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using aska.core.common.Data.Entity;
+using aska.core.infrastructure.data.Model;
 
 namespace aska.core.infrastructure.data.Store
 {
