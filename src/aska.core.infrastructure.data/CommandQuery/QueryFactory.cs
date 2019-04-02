@@ -1,21 +1,21 @@
 ﻿using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace aska.core.infrastructure.data.CommandQuery
 {
     public class QueryFactory : IQueryFactory
     {
-        protected ILifetimeScope Scope;
+        protected IServiceProvider Scope;
 
-        public QueryFactory(ILifetimeScope scope)
+        public QueryFactory(IServiceProvider scope)
         {
             Scope = scope;
         }
 
         public IQuery<TEntity, IExpressionSpecification<TEntity>> GetQuery<TEntity>() where TEntity : class, IEntity
         {
-            return Scope.Resolve<IQuery<TEntity, IExpressionSpecification<TEntity>>>();
+            return Scope.GetR<IQuery<TEntity, IExpressionSpecification<TEntity>>>();
         }
 
         public IQuery<TEntity, TSpecification> GetQuery<TEntity, TSpecification>() where TEntity : class, IEntity where TSpecification : ISpecification<TEntity>
