@@ -1,23 +1,24 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using aska.core.infrastructure.data.Store;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace aska.core.infrastructure.data.CommandQuery.Command
 {
     public class UnitOfWorkScopeCommand<T> : ICommand<T> where T : class, IEntity
     {
-        protected ILifetimeScope Scope;
+        protected readonly IServiceProvider Scope;
 
-        public UnitOfWorkScopeCommand(ILifetimeScope scope)
+        public UnitOfWorkScopeCommand(IServiceProvider scope)
         {
             Scope = scope;
         }
 
         public IUnitOfWork GetFromScope()
         {
-            return Scope.Resolve<IUnitOfWork>();
+            return Scope.GetRequiredService<IUnitOfWork>();
         }
 
         public virtual Task ExecuteAsync(T context)

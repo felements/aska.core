@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using aska.core.infrastructure.data.Model;
-using Autofac;
 
 namespace aska.core.infrastructure.data.CommandQuery.Command
 {
@@ -14,7 +14,7 @@ namespace aska.core.infrastructure.data.CommandQuery.Command
             await uow.CommitAsync();
         }
 
-        public CreateEntityCommand(ILifetimeScope scope) : base(scope)
+        public CreateEntityCommand(IServiceProvider scope) : base(scope)
         {
         }
     }

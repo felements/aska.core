@@ -5,7 +5,7 @@ using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.Store;
 using Microsoft.EntityFrameworkCore;
 
-namespace aska.core.infrastructure.data.ef.Store
+namespace aska.core.infrastructure.data.ef.Context
 {
     internal class UnitOfWork : IUnitOfWork
     {

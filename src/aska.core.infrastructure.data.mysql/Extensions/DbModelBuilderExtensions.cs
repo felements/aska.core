@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using kd.misc;
+using aska.core.common;
 using Microsoft.EntityFrameworkCore;
 
-namespace kd.infrastructure.mysql.Extensions
+namespace aska.core.infrastructure.data.mysql.Extensions
 {
     public static class DbModelBuilderExtensions
     {

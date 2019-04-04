@@ -1,42 +1,43 @@
-﻿using aska.core.infrastructure.data.Model;
+﻿using System;
+using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.CommandQuery.Command;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
-using Autofac;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace aska.core.infrastructure.data.CommandQuery
 {
     public class CommandFactory : ICommandFactory
     {
-        protected ILifetimeScope Scope;
+        private readonly IServiceProvider _scope;
 
-        public CommandFactory(ILifetimeScope scope)
+        public CommandFactory(IServiceProvider scope)
         {
-            Scope = scope;
+            _scope = scope;
         }
 
         public TCommand GetCommand<TEntity, TCommand>() where TCommand : ICommand<TEntity>
         {
-            return Scope.Resolve<TCommand>();
+            return _scope.GetRequiredService<TCommand>();
         }
 
         public T GetCommand<T>() where T : ICommand
         {
-            return Scope.Resolve<T>();
+            return _scope.GetRequiredService<T>();
         }
 
         public CreateEntityCommand<T> GetCreateCommand<T>() where T : class, IEntity
         {
-            return new CreateEntityCommand<T>(Scope);
+            return new CreateEntityCommand<T>(_scope);
         }
 
         public DeleteEntityCommand<T> GetDeleteCommand<T>() where T : class, IEntity
         {
-            return new DeleteEntityCommand<T>(Scope);
+            return new DeleteEntityCommand<T>(_scope);
         }
 
         public UpdateEntityCommand<T> GetUpdateCommand<T>() where T : class, IEntity
         {
-            return new UpdateEntityCommand<T>(Scope);
+            return new UpdateEntityCommand<T>(_scope);
         }
     }
 }

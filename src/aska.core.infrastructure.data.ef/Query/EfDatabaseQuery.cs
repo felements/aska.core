@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.Model;
 
-namespace aska.core.infrastructure.data.CommandQuery.Query
+namespace aska.core.infrastructure.data.ef.Query
 {
-    public class DbQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
+    public class EfDatabaseQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
         where TEntity : class, IEntity
         where TSpecification : IExpressionSpecification<TEntity>
     {
         private IQueryable<TEntity> _query;
+        
 
-        public DbQuery(Func<IQueryable<TEntity>> dbsetQueryCreator)
+        public EfDatabaseQuery(Func<IQueryable<TEntity>> dbsetQueryCreator)
         {
             _query = dbsetQueryCreator();
             //if (ctx == null) throw new ArgumentNullException(nameof(ctx));

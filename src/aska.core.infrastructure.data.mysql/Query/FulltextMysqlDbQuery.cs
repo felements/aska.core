@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
-using aska.core.infrastructure.data.ef.Store;
+using aska.core.infrastructure.data.ef.Context;
+using aska.core.infrastructure.data.Model;
+using aska.core.infrastructure.data.mysql.Context;
 
-namespace aska.core.infrastructure.data.ef.Query
+namespace aska.core.infrastructure.data.mysql.Query
 {
-    public class FulltextDbQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
+    [Obsolete("Not safe. Should be rewritten")]
+    public class FulltextMysqlDbQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
         where TEntity : class, IEntity
         where TSpecification : class, IFulltextMatchSpecification<TEntity>
     {
-        private readonly IDbContext _ctx;
+        private readonly IMysqlDbContextExtendedOperations _ctx;
 
-        public FulltextDbQuery(IDbContext ctx)
+        public FulltextMysqlDbQuery(IMysqlDbContextExtendedOperations ctx)
         {
             _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
         }

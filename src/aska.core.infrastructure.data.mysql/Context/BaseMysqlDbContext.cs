@@ -1,27 +1,40 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using kd.domainmodel.Entity;
-using kd.infrastructure.mysql.Extensions;
-using kd.infrastructure.Store;
-using kd.misc;
-using kd.misc.Constants;
+using aska.core.common;
+using aska.core.infrastructure.data.ef.Context;
+using aska.core.infrastructure.data.Model;
+using aska.core.infrastructure.data.mysql.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using NLog;
 
-namespace kd.infrastructure.mysql.Context
+namespace aska.core.infrastructure.data.mysql.Context
 {
-    public class MysqlDbContext : DbContext, IDbContext
+    public class BaseMysqlDbContext : DbContext, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public string Id { get; private set; }
+        private readonly Func<string> _connectionStringFactory;
+        private readonly string _assembliesNamePrefix;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <example>
+        /// connstring - "server=localhost;database=kovalevskaya_design;user id=kovalevskaya_design;password=kovalevskaya_design"
+        /// </example>
+        /// <param name="connectionStringFactory"></param>
+        /// <param name="assembliesNamePrefix"></param>
+        public BaseMysqlDbContext(Func<string> connectionStringFactory, string assembliesNamePrefix) : base()
+        {
+            _connectionStringFactory = connectionStringFactory;
+            _assembliesNamePrefix = assembliesNamePrefix;
+        }
+        
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
-
-
-            optionsBuilder.UseMySql(GetConnectionString());
+            optionsBuilder.UseMySql(_connectionStringFactory());
 
             // load model
             //AssemblyExtensions.ForceLoadAssemblies(Namespace.AssemblyNamePrefix);
@@ -36,27 +49,6 @@ namespace kd.infrastructure.mysql.Context
 
             //todo: causes NullReferenceException on creating initial migration (sdk 2.1.401)
         }
-
-        public MysqlDbContext() : base()
-        {
-            Id = Guid.NewGuid().ToString("D");
-            Logger.Trace("Created DB context with #{0}", Id);
-        }
-
-        private static string GetConnectionString(/*IServiceConfiguration serviceConfiguration*/)
-        {
-            //var cs = new MySql.Data.MySqlClient.MySqlConnectionStringBuilder
-            //{
-            //    Server = serviceConfiguration.Database.Server,
-            //    Database = serviceConfiguration.Database.Database,
-            //    UserID = serviceConfiguration.Database.UserName,
-            //    Password = serviceConfiguration.Database.Password
-            //}.ConnectionString;
-
-            //TODO: move to config
-            return "server=localhost;database=kovalevskaya_design;user id=kovalevskaya_design;password=kovalevskaya_design";
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.Entity<UserPrincipal>();
@@ -76,8 +68,8 @@ namespace kd.infrastructure.mysql.Context
             //modelBuilder.Entity<HistoryRow>().Property(h => h.ContextKey).HasMaxLength(200).IsRequired();
 
             // load all assemblies with entity classes before registering them
-            AssemblyExtensions.ForceLoadAssemblies(Namespace.AssemblyNamePrefix);
-            modelBuilder.RegisterDerivedTypes<IEntity>(Namespace.AssemblyNamePrefix);
+            AssemblyExtensions.ForceLoadAssemblies(_assembliesNamePrefix);
+            modelBuilder.RegisterDerivedTypes<IEntity>(_assembliesNamePrefix);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -85,64 +77,37 @@ namespace kd.infrastructure.mysql.Context
         #region IDbContext implementation
 
         
-        public DbSet<T> GetDbSet<T>() where T : class
+        DbSet<T> IDbContext.GetDbSet<T>()
         {
-            return Set<T>();
+            return base.Set<T>();
         }
 
-        public Task<int> SaveChangesAsync()
+        Task<int> IDbContext.SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return base.SaveChangesAsync();
         }
+        #endregion 
 
-        public bool AutoDetectChangesEnabled
-        {
-            get => this.ChangeTracker.AutoDetectChangesEnabled;
-            set => this.ChangeTracker.AutoDetectChangesEnabled = value;
-        }
-        
-        public void DetectChanges()
-        {
-            ChangeTracker.DetectChanges();
-        }
+        #region mysql extended ops
 
-        //public IQueryable<TEntity> Include<TEntity, TProperty>(
-        //    IQueryable<TEntity> query,
-        //    params Expression<Func<TEntity, TProperty>>[] properties)
-        //{
-        //    return properties.Aggregate(query, (current, property) => current.Include(property));
-        //}
-
-        public string GetTableName<T>() where T : class, IEntity
+        string IMysqlDbContextExtendedOperations.GetTableName<T>()
         {
             return GetTableName(typeof(T), this);
         }
 
-        public void ExecuteRawSqlCommand(string command)
+        void IMysqlDbContextExtendedOperations.ExecuteRawSqlCommand(string command)
         {
             if (string.IsNullOrWhiteSpace(command)) throw new ArgumentOutOfRangeException(nameof(command));
-
-            Logger.Warn("Executing raw SQL command: " + command);
-            this.Database.ExecuteRawSqlCommand(command);
+            Database.ExecuteSqlCommand(command);
         }
 
-        public IQueryable<T> ExecuteRawSqlQuery<T>(string query, params object[] parameters) where T : class
+        IQueryable<T> IMysqlDbContextExtendedOperations.ExecuteRawSqlQuery<T>(string query, params object[] parameters)
         {
             if (string.IsNullOrWhiteSpace(query)) throw new ArgumentOutOfRangeException(nameof(query));
-
-            Logger.Warn("Executing raw SQL query: " + query);
-
-            return this.Set<T>().FromSql(query, parameters);
+            return Set<T>().FromSql(query, parameters);
         }
-
-        public string[] Migrate()
-        {
-            var pending = Database.GetPendingMigrations();
-            Database.Migrate();
-            return pending.ToArray();
-        }
-
-        public void TruncateTable<T>() where T : class, IEntity
+        
+        void IMysqlDbContextExtendedOperations.TruncateTable<T>()
         {
             var tblName = GetTableName(typeof(T), this).ToLower();
 
@@ -162,6 +127,16 @@ namespace kd.infrastructure.mysql.Context
             var schema = mapping.Schema;
             var tableName = mapping.TableName;
             return tableName;
+        }
+        #endregion
+        
+        #region migration
+
+        string[] IDbContextMigrate.Migrate()
+        {
+            var pending = Database.GetPendingMigrations();
+            Database.Migrate();
+            return pending.ToArray();
         }
         #endregion
     }

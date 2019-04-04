@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace kd.infrastructure.mysql.Extensions
+namespace aska.core.infrastructure.data.mysql.Extensions
 {
     /// <summary>
     /// see: https://stackoverflow.com/questions/35631903/raw-sql-query-without-dbset-entity-framework-core

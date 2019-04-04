@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aska.core.infrastructure.da
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aska.core.infrastructure.data.mysql", "aska.core.infrastructure.data.mysql\aska.core.infrastructure.data.mysql.csproj", "{74726993-99E6-458D-8B36-E7EE99DB0CEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aska.core.common", "aska.core.common\aska.core.common.csproj", "{4DA7EE3F-7AF9-449B-885A-1E07003876F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{74726993-99E6-458D-8B36-E7EE99DB0CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74726993-99E6-458D-8B36-E7EE99DB0CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74726993-99E6-458D-8B36-E7EE99DB0CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DA7EE3F-7AF9-449B-885A-1E07003876F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DA7EE3F-7AF9-449B-885A-1E07003876F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DA7EE3F-7AF9-449B-885A-1E07003876F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DA7EE3F-7AF9-449B-885A-1E07003876F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
