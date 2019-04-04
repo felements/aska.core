@@ -13,8 +13,8 @@ namespace aska.core.infrastructure.data.mysql.Context
 {
     public class BaseMysqlDbContext : DbContext, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate
     {
-        private readonly Func<string> _connectionStringFactory;
-        private readonly string _assembliesNamePrefix;
+        private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly IDbContextEntityTypesProvider _entityTypesProvider;
 
         /// <summary>
         /// 
@@ -22,19 +22,21 @@ namespace aska.core.infrastructure.data.mysql.Context
         /// <example>
         /// connstring - "server=localhost;database=kovalevskaya_design;user id=kovalevskaya_design;password=kovalevskaya_design"
         /// </example>
-        /// <param name="connectionStringFactory"></param>
+        /// <param name="connectionStringProvider"></param>
         /// <param name="assembliesNamePrefix"></param>
-        public BaseMysqlDbContext(Func<string> connectionStringFactory, string assembliesNamePrefix) : base()
+        /// <param name="entityTypesProvider"></param>
+        public BaseMysqlDbContext(
+            IConnectionStringProvider connectionStringProvider, 
+            IDbContextEntityTypesProvider entityTypesProvider) : base()
         {
-            _connectionStringFactory = connectionStringFactory;
-            _assembliesNamePrefix = assembliesNamePrefix;
+            _connectionStringProvider = connectionStringProvider;
+            _entityTypesProvider = entityTypesProvider;
         }
         
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-            optionsBuilder.UseMySql(_connectionStringFactory());
+            optionsBuilder.UseMySql(_connectionStringProvider.Get());
 
             // load model
             //AssemblyExtensions.ForceLoadAssemblies(Namespace.AssemblyNamePrefix);
@@ -68,9 +70,7 @@ namespace aska.core.infrastructure.data.mysql.Context
             //modelBuilder.Entity<HistoryRow>().Property(h => h.ContextKey).HasMaxLength(200).IsRequired();
 
             // load all assemblies with entity classes before registering them
-            AssemblyExtensions.ForceLoadAssemblies(_assembliesNamePrefix);
-            modelBuilder.RegisterDerivedTypes<IEntity>(_assembliesNamePrefix);
-
+            modelBuilder.RegisterTypes(_entityTypesProvider.Get());
             base.OnModelCreating(modelBuilder);
         }
 

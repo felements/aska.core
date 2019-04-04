@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.ef.Context;
 using aska.core.infrastructure.data.Model;
 
 namespace aska.core.infrastructure.data.ef.Query
@@ -14,11 +15,9 @@ namespace aska.core.infrastructure.data.ef.Query
         private IQueryable<TEntity> _query;
         
 
-        public EfDatabaseQuery(Func<IQueryable<TEntity>> dbsetQueryCreator)
+        public EfDatabaseQuery(IQueryableEntityProvider queryable)
         {
-            _query = dbsetQueryCreator();
-            //if (ctx == null) throw new ArgumentNullException(nameof(ctx));
-            //_query = ctx.GetDbSet<TEntity>().AsQueryable();
+            _query = queryable.Get<TEntity>();
         }
 
         public IEnumerable<TEntity> All()

@@ -7,12 +7,18 @@ using Microsoft.Extensions.DependencyInjection;
 namespace aska.core.infrastructure.data.ef
 {
     public static class CommandQueryExtensions {
-        public static data.CommandQueryExtensions.Builder WithEfDatabaseQuery<TContext>(this data.CommandQueryExtensions.Builder builder)
+        public static data.CommandQueryExtensions.Builder WithEfDatabaseQuery<TContext>(this data.CommandQueryExtensions.Builder builder, string assemblyNamePrefix) 
+            where TContext: class, IDbContext
         {
-            builder.Services.AddTransient(typeof(IQuery<,>), typeof(EfDatabaseQuery<,>));
-            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-            //TODO: unitOfWork
+            builder.Services
+                .AddTransient(typeof(IQuery<,>), typeof(EfDatabaseQuery<,>))
 
+                .AddTransient<IUnitOfWork, UnitOfWork>()
+                .AddSingleton<IDbContextEntityTypesProvider<TContext>, DbContextEntityTypesProvider<TContext>>(
+                    provider => new DbContextEntityTypesProvider<TContext>(assemblyNamePrefix))
+                .AddTransient<IQueryableEntityProvider, DbContextQueryableEntityProvider<TContext>>();
+
+            //TODO: support multiple dbContexts for IQueryableEntityProvider<TContext>
             return builder;
         }
     }

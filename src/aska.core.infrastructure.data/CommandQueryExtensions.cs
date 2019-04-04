@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace aska.core.infrastructure.data
 {
     public static class CommandQueryExtensions {
-        public static Builder AddCommandQuery<TContext>(this IServiceCollection services)
+        public static Builder AddCommandQuery(this IServiceCollection services)
         {
             services.AddTransient<IQueryFactory, QueryFactory>();
             services.AddTransient<ICommandFactory, CommandFactory>();

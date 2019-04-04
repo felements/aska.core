@@ -19,6 +19,18 @@ namespace aska.core.infrastructure.data.mysql.Extensions
                 var entity = generic.Invoke(builder, null);
             }
         }
+        
+        public static void RegisterTypes(this ModelBuilder builder, Type[] types)
+        {
+            var entityMethod = typeof(ModelBuilder).GetMethods().SingleOrDefault(m => m.IsGenericMethod && m.Name == "Entity" && m.GetParameters().Length == 0);
+            if (entityMethod == null) throw new Exception("Model builder should contain 'Entity<>()' method.");
+
+            foreach (var type in types)
+            {
+                var generic = entityMethod.MakeGenericMethod(type);
+                var entity = generic.Invoke(builder, null);
+            }
+        }
 
     }
 }
