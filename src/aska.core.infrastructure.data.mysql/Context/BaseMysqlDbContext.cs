@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.ef.Context;
-using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.mysql.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -69,8 +68,11 @@ namespace aska.core.infrastructure.data.mysql.Context
             //modelBuilder.Entity<HistoryRow>().HasKey(x => x.MigrationId);
             //modelBuilder.Entity<HistoryRow>().Property(h => h.ContextKey).HasMaxLength(200).IsRequired();
 
+            
             // load all assemblies with entity classes before registering them
-            modelBuilder.RegisterTypes(_entityTypesProvider.Get());
+            //modelBuilder.RegisterTypes(_entityTypesProvider.Get());
+            
+            
             base.OnModelCreating(modelBuilder);
         }
 

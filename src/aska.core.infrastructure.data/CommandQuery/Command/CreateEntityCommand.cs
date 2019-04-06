@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using aska.core.infrastructure.data.Model;
+using aska.core.common;
 
 namespace aska.core.infrastructure.data.CommandQuery.Command
 {

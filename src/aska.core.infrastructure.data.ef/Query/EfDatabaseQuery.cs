@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using aska.core.infrastructure.data.ef.Context;
-using aska.core.infrastructure.data.Model;
 
 namespace aska.core.infrastructure.data.ef.Query
 {

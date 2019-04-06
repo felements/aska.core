@@ -1,6 +1,6 @@
 using System;
 
-namespace aska.core.infrastructure.data.Model
+namespace aska.core.common
 {
     public interface IEntity
     {

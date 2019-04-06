@@ -14,8 +14,8 @@ namespace aska.core.infrastructure.data.ef
                 .AddTransient(typeof(IQuery<,>), typeof(EfDatabaseQuery<,>))
 
                 .AddTransient<IUnitOfWork, UnitOfWork>()
-                .AddSingleton<IDbContextEntityTypesProvider<TContext>, DbContextEntityTypesProvider<TContext>>(
-                    provider => new DbContextEntityTypesProvider<TContext>(assemblyNamePrefix))
+                .AddSingleton<IDbContextEntityTypesProvider<TContext>, DefaultDbContextEntityTypesProvider<TContext>>(
+                    provider => new DefaultDbContextEntityTypesProvider<TContext>(assemblyNamePrefix))
                 .AddTransient<IQueryableEntityProvider, DbContextQueryableEntityProvider<TContext>>();
 
             //TODO: support multiple dbContexts for IQueryableEntityProvider<TContext>

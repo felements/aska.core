@@ -1,5 +1,5 @@
 ﻿using System;
-using aska.core.infrastructure.data.Model;
+using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 

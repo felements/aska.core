@@ -1,6 +1,6 @@
 using System.Linq;
+using aska.core.common;
 using aska.core.infrastructure.data.ef.Context;
-using aska.core.infrastructure.data.Model;
 
 namespace aska.core.infrastructure.data.mysql.Context
 {

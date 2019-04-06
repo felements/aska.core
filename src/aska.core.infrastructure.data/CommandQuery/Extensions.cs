@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
-using aska.core.infrastructure.data.Model;
+using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using aska.core.infrastructure.data.CommandQuery.Specification;
 

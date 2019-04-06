@@ -1,4 +1,4 @@
-﻿using aska.core.infrastructure.data.Model;
+﻿using aska.core.common;
 
 namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {

@@ -5,4 +5,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\aska.core.common\aska.core.common.csproj" />
+  </ItemGroup>
 </Project>

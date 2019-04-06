@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using aska.core.infrastructure.data.Model;
+using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using aska.core.infrastructure.data.Store;
 using Microsoft.Extensions.DependencyInjection;

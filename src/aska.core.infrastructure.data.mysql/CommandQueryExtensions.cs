@@ -1,7 +1,6 @@
 ﻿using System;
 using aska.core.infrastructure.data.ef.Context;
 using aska.core.infrastructure.data.ef.Query;
-using aska.core.infrastructure.data.Model;
 using aska.core.infrastructure.data.mysql.Context;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,7 +11,6 @@ namespace aska.core.infrastructure.data.mysql
             this data.CommandQueryExtensions.Builder builder) 
             where TContext: class, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate
         {
-            
             builder.Services
                 .AddTransient<IDbContext, TContext>()
                 .AddTransient<IMysqlDbContextExtendedOperations, TContext>()
