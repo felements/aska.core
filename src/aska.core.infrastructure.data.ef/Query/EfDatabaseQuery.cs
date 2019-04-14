@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
@@ -23,27 +24,27 @@ namespace aska.core.infrastructure.data.ef.Query
         }
 
         public IEnumerable<TEntity> All() => _query.ToArray();
-        public async Task<IEnumerable<TEntity>> AllAsync() => await _query.ToArrayAsync();
+        public async Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct) => await _query.ToArrayAsync(ct);
 
         public bool Any() => _query.Any();
 
-        public Task<bool> AnyAsync() => _query.AnyAsync();
+        public Task<bool> AnyAsync(CancellationToken ct) => _query.AnyAsync(ct);
         
         public int Count() => _query.Count();
 
-        public Task<int> CountAsync() => _query.CountAsync();
+        public Task<int> CountAsync(CancellationToken ct) => _query.CountAsync(ct);
 
         public TEntity FirstOrDefault() => _query.FirstOrDefault();
 
-        public Task<TEntity> FirstOrDefaultAsync() => _query.FirstOrDefaultAsync();
+        public Task<TEntity> FirstOrDefaultAsync(CancellationToken ct) => _query.FirstOrDefaultAsync(ct);
         
         public TEntity Single() => _query.Single(); 
         
-        public Task<TEntity> SingleAsync() => _query.SingleAsync();
+        public Task<TEntity> SingleAsync(CancellationToken ct) => _query.SingleAsync(ct);
         
         public TEntity SingleOrDefault() => _query.SingleOrDefault();
 
-        public Task<TEntity> SingleOrDefaultAsync() => _query.SingleOrDefaultAsync();
+        public Task<TEntity> SingleOrDefaultAsync(CancellationToken ct) => _query.SingleOrDefaultAsync(ct);
         
         
         public IEnumerable<TEntity> Paged(int? pageNumber, int? take)

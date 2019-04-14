@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
@@ -57,6 +58,11 @@ namespace aska.core.infrastructure.data.mysql.Query
             return Query.Single();
         }
 
+        public Task<TEntity> SingleAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<TEntity> SingleAsync()
         {
             throw new NotImplementedException();
@@ -68,6 +74,11 @@ namespace aska.core.infrastructure.data.mysql.Query
             return Query.SingleOrDefault();
         }
 
+        public Task<TEntity> SingleOrDefaultAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<TEntity> SingleOrDefaultAsync()
         {
             throw new NotImplementedException();
@@ -77,6 +88,11 @@ namespace aska.core.infrastructure.data.mysql.Query
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
             return Query.FirstOrDefault();
+        }
+
+        public Task<TEntity> FirstOrDefaultAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<TEntity> FirstOrDefaultAsync()
@@ -91,6 +107,11 @@ namespace aska.core.infrastructure.data.mysql.Query
             return Query.ToList();
         }
 
+        public Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<TEntity>> AllAsync()
         {
             throw new NotImplementedException();
@@ -101,6 +122,11 @@ namespace aska.core.infrastructure.data.mysql.Query
             if (Query == null) throw new Exception("Fulltext specification required.");
 
             return Query.Any();
+        }
+
+        public Task<bool> AnyAsync(CancellationToken ct)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<bool> AnyAsync()
@@ -118,6 +144,11 @@ namespace aska.core.infrastructure.data.mysql.Query
         }
 
         int IQuery<TEntity, TSpecification>.Count()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> CountAsync(CancellationToken ct)
         {
             throw new NotImplementedException();
         }
