@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using aska.core.infrastructure.data.ef.Context;
@@ -56,16 +57,31 @@ namespace aska.core.infrastructure.data.mysql.Query
             return Query.Single();
         }
 
+        public Task<TEntity> SingleAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public TEntity SingleOrDefault()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
             return Query.SingleOrDefault();
         }
 
+        public Task<TEntity> SingleOrDefaultAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public TEntity FirstOrDefault()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
             return Query.FirstOrDefault();
+        }
+
+        public Task<TEntity> FirstOrDefaultAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<TEntity> All()
@@ -75,11 +91,21 @@ namespace aska.core.infrastructure.data.mysql.Query
             return Query.ToList();
         }
 
+        public Task<IEnumerable<TEntity>> AllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Any()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
 
             return Query.Any();
+        }
+
+        public Task<bool> AnyAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<TEntity> Paged(int? pageNumber, int? take)
@@ -89,6 +115,16 @@ namespace aska.core.infrastructure.data.mysql.Query
             return take.HasValue
                 ? Query.Skip((pageNumber ?? 0) * take.Value).Take(take.Value).ToList()
                 : All();
+        }
+
+        int IQuery<TEntity, TSpecification>.Count()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> CountAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public long Count()

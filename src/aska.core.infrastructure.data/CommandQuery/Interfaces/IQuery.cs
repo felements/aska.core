@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using aska.core.common;
 
 namespace aska.core.infrastructure.data.CommandQuery.Interfaces
@@ -20,17 +21,23 @@ namespace aska.core.infrastructure.data.CommandQuery.Interfaces
         //IQuery<TEntity, TSpecification> Include<TProperty>(Expression<Func<TEntity, TProperty>> expression);
 
         TEntity Single();
+        Task<TEntity> SingleAsync();
 
         TEntity SingleOrDefault();
+        Task<TEntity> SingleOrDefaultAsync();
 
         TEntity FirstOrDefault();
+        Task<TEntity> FirstOrDefaultAsync();
 
         IEnumerable<TEntity> All();
+        Task<IEnumerable<TEntity>> AllAsync();
 
         bool Any();
+        Task<bool> AnyAsync();
 
         IEnumerable<TEntity> Paged(int? pageNumber, int? take);
 
-        long Count();
+        int Count();
+        Task<int> CountAsync();
     }
 }

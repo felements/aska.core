@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
 using aska.core.infrastructure.data.ef.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace aska.core.infrastructure.data.ef.Query
 {
@@ -20,24 +22,35 @@ namespace aska.core.infrastructure.data.ef.Query
             _query = queryable.Get<TEntity>();
         }
 
-        public IEnumerable<TEntity> All()
-        {
-            return _query.ToList();
-        }
+        public IEnumerable<TEntity> All() => _query.ToArray();
+        public async Task<IEnumerable<TEntity>> AllAsync() => await _query.ToArrayAsync();
 
-        public bool Any()
-        {
-            return _query.Any();
-        }
+        public bool Any() => _query.Any();
 
-        public long Count()
-        {
-            return _query.Count();
-        }
+        public Task<bool> AnyAsync() => _query.AnyAsync();
+        
+        public int Count() => _query.Count();
 
-        public TEntity FirstOrDefault()
+        public Task<int> CountAsync() => _query.CountAsync();
+
+        public TEntity FirstOrDefault() => _query.FirstOrDefault();
+
+        public Task<TEntity> FirstOrDefaultAsync() => _query.FirstOrDefaultAsync();
+        
+        public TEntity Single() => _query.Single(); 
+        
+        public Task<TEntity> SingleAsync() => _query.SingleAsync();
+        
+        public TEntity SingleOrDefault() => _query.SingleOrDefault();
+
+        public Task<TEntity> SingleOrDefaultAsync() => _query.SingleOrDefaultAsync();
+        
+        
+        public IEnumerable<TEntity> Paged(int? pageNumber, int? take)
         {
-            return _query.FirstOrDefault();
+            return take.HasValue
+                ? _query.Skip( (pageNumber ?? 0) * take.Value ).Take( take.Value ).ToList() 
+                : All();
         }
 
         public IQuery<TEntity, TSpecification> OrderBy<TProperty>(Expression<Func<TEntity, TProperty>> expression, SortOrder sortOrder = SortOrder.Ascending)
@@ -47,23 +60,6 @@ namespace aska.core.infrastructure.data.ef.Query
                 : _query.OrderByDescending(expression);
             _query = ordered;
             return this;
-        }
-       
-        public IEnumerable<TEntity> Paged(int? pageNumber, int? take)
-        {
-            return take.HasValue
-                ? _query.Skip( (pageNumber ?? 0) * take.Value ).Take( take.Value ).ToList() 
-                : All();
-        }
-
-        public TEntity Single()
-        {
-            return _query.Single();
-        }
-
-        public TEntity SingleOrDefault()
-        {
-            return _query.SingleOrDefault();
         }
 
         public IQuery<TEntity, TSpecification> Where(TSpecification specification)
