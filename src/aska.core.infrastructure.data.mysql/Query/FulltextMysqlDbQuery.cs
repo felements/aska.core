@@ -6,13 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using aska.core.infrastructure.data.CommandQuery.Query;
 using aska.core.infrastructure.data.ef.Context;
 using aska.core.infrastructure.data.mysql.Context;
 
 namespace aska.core.infrastructure.data.mysql.Query
 {
     [Obsolete("Not safe. Should be rewritten")]
-    public class FulltextMysqlDbQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
+    public class FulltextMysqlDbQuery<TEntity, TSpecification> : NopeQuery<TEntity, TSpecification>
         where TEntity : class, IEntity
         where TSpecification : class, IFulltextMatchSpecification<TEntity>
     {
@@ -27,12 +28,7 @@ namespace aska.core.infrastructure.data.mysql.Query
 
         #region Implementation of IQuery<TEntity,in TSpecification>
 
-        public IQuery<TEntity, TSpecification> Where(Expression<Func<TEntity, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQuery<TEntity, TSpecification> Where(TSpecification specification)
+        public override IQuery<TEntity, TSpecification> Where(TSpecification specification)
         {
             var tableName = _ctx.GetTableName<TEntity>();
             var selectors = specification.FieldSelectors
@@ -40,101 +36,45 @@ namespace aska.core.infrastructure.data.mysql.Query
                 .Where(s => !string.IsNullOrWhiteSpace(s))
                 .ToArray();
 
-            var cmd = new FulltextMatchCommand(tableName, selectors, specification.SearchQuery);
+            var cmd = new FulltextMatchMySqlCommand(tableName, selectors, specification.SearchQuery);
             Query = _ctx.ExecuteRawSqlQuery<TEntity>(cmd);
 
             return this;
         }
-
-        public IQuery<TEntity, TSpecification> OrderBy<TProperty>(Expression<Func<TEntity, TProperty>> expression, SortOrder sortOrder = SortOrder.Ascending)
-        {
-            throw new NotImplementedException();
-        }
-
         
-        public TEntity Single()
+        public override TEntity Single()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
             return Query.Single();
         }
 
-        public Task<TEntity> SingleAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TEntity> SingleAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity SingleOrDefault()
+        public override TEntity SingleOrDefault()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
             return Query.SingleOrDefault();
         }
 
-        public Task<TEntity> SingleOrDefaultAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TEntity> SingleOrDefaultAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public TEntity FirstOrDefault()
+        public override TEntity FirstOrDefault()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
             return Query.FirstOrDefault();
         }
 
-        public Task<TEntity> FirstOrDefaultAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TEntity> FirstOrDefaultAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> All()
+        public override IEnumerable<TEntity> All()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
 
             return Query.ToList();
         }
 
-        public Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TEntity>> AllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Any()
+        public override bool Any()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
 
             return Query.Any();
         }
 
-        public Task<bool> AnyAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> AnyAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> Paged(int? pageNumber, int? take)
+        public override IEnumerable<TEntity> Paged(int? pageNumber, int? take)
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
 
@@ -143,22 +83,7 @@ namespace aska.core.infrastructure.data.mysql.Query
                 : All();
         }
 
-        int IQuery<TEntity, TSpecification>.Count()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> CountAsync(CancellationToken ct)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> CountAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public long Count()
+        public override int Count()
         {
             if (Query == null) throw new Exception("Fulltext specification required.");
             return Query.Count();
@@ -166,11 +91,11 @@ namespace aska.core.infrastructure.data.mysql.Query
 
         #endregion
 
-        private class FulltextMatchCommand
+        private class FulltextMatchMySqlCommand
         {
             private const string FulltextMatchCommandTemplate = "select *, match({1}) against('{2}' IN BOOLEAN MODE) as relevance  from {0} where match({1}) against('{2}' IN BOOLEAN MODE);";
 
-            public FulltextMatchCommand(string tblName, string[] columns, string[] query)
+            public FulltextMatchMySqlCommand(string tblName, string[] columns, string[] query)
             {
                 //todo: query text clean up
 
@@ -186,7 +111,7 @@ namespace aska.core.infrastructure.data.mysql.Query
 
             #region Overrides of Object
 
-            public static implicit operator string(FulltextMatchCommand cmd)
+            public static implicit operator string(FulltextMatchMySqlCommand cmd)
             {
                 return cmd.ToString();
             }
