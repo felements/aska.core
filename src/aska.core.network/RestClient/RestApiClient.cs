@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace aska.core.network.RestClient
 {
-    internal class RestApiClient : IRestApiClient
+    public class RestApiClient : IRestApiClient
     {
         private readonly Lazy<HttpClient> _client;
         private string _authToken;
