@@ -22,10 +22,10 @@ namespace aska.core.infrastructure.data.mysql
         }
 
         public static data.CommandQueryExtensions.Builder WithDefaultConnectionStringProvider(
-            this data.CommandQueryExtensions.Builder builder, string name)
+            this data.CommandQueryExtensions.Builder builder, string name, string host = "localhost")
         {
             builder.Services.AddSingleton<IConnectionStringProvider, DefaultMysqlConnectionStringProvider>(
-                provider => DefaultMysqlConnectionStringProvider.Create(name) );
+                provider => DefaultMysqlConnectionStringProvider.Create(name, host));
             
             return builder;
         }
