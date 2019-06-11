@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.CommandQuery.Interfaces;
@@ -21,7 +22,7 @@ namespace aska.core.infrastructure.data.CommandQuery.Command
             return Scope.GetRequiredService<IUnitOfWork>();
         }
 
-        public virtual Task ExecuteAsync(T context)
+        public virtual Task ExecuteAsync(T context, CancellationToken ct)
         {
             return Task.CompletedTask;
         }

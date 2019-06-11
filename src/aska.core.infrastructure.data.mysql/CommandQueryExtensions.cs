@@ -7,17 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 namespace aska.core.infrastructure.data.mysql
 {
     public static class CommandQueryExtensions {
-        public static data.CommandQueryExtensions.Builder WithMysqlDatabaseContext<TContext>(
-            this data.CommandQueryExtensions.Builder builder) 
-            where TContext: class, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate
+        public static data.CommandQueryExtensions.Builder WithMysqlDatabaseContext<TContext>(this data.CommandQueryExtensions.Builder builder) 
+            where TContext: class, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate, IDbContextMetadata
         {
             builder.Services
                 .AddTransient<IDbContext, TContext>()
+                .AddTransient<IDbContextMetadata, TContext>()
                 .AddTransient<IMysqlDbContextExtendedOperations, TContext>()
                 .AddTransient<IDbContextMigrate, TContext>()
                 .AddTransient<TContext>();
 
-            
             return builder;
         }
 

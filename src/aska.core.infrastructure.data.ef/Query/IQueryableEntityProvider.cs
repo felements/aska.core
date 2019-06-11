@@ -4,10 +4,10 @@ using aska.core.infrastructure.data.ef.Context;
 
 namespace aska.core.infrastructure.data.ef.Query
 {
-    
-    //TODO: support multiple dbContexts
     public interface IQueryableEntityProvider
     {
-        IQueryable<TEntity> Get<TEntity>() where TEntity: class, IEntity;
+        IQueryable<TEntity> GetEntity<TEntity>() where TEntity: class, IEntity;
+
+        IDbContext GetContext<TEntity>() where TEntity : class, IEntity;
     }
 }

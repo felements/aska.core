@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using aska.core.common;
 using aska.core.infrastructure.data.ef.Context;
@@ -10,71 +11,25 @@ using NLog;
 
 namespace aska.core.infrastructure.data.mysql.Context
 {
-    public class BaseMysqlDbContext : DbContext, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate
+    public class BaseMysqlDbContext : 
+        DbContext, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate, IDbContextMetadata
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
-        private readonly IDbContextEntityTypesProvider _entityTypesProvider;
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <example>
         /// connstring - "server=localhost;database=kovalevskaya_design;user id=kovalevskaya_design;password=kovalevskaya_design"
         /// </example>
         /// <param name="connectionStringProvider"></param>
-        /// <param name="assembliesNamePrefix"></param>
-        /// <param name="entityTypesProvider"></param>
-        public BaseMysqlDbContext(
-            IConnectionStringProvider connectionStringProvider, 
-            IDbContextEntityTypesProvider entityTypesProvider) : base()
+        protected BaseMysqlDbContext(IConnectionStringProvider connectionStringProvider)
         {
             _connectionStringProvider = connectionStringProvider;
-            _entityTypesProvider = entityTypesProvider;
         }
-        
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(_connectionStringProvider.Get());
-
-            // load model
-            //AssemblyExtensions.ForceLoadAssemblies(Namespace.AssemblyNamePrefix);
-
-            //var convention = new Microsoft.EntityFrameworkCore.Metadata.Conventions.ConventionSet();
-            //var mb = new ModelBuilder(convention);
-            //foreach (var definition in AssemblyExtensions.GetDerivedTypes<IEntity>(Namespace.AssemblyNamePrefix))
-            //{
-            //    mb.Entity(definition);
-            //}
-            //optionsBuilder.UseModel(mb.Model);
-
-            //todo: causes NullReferenceException on creating initial migration (sdk 2.1.401)
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<UserPrincipal>();
-            //modelBuilder.Entity<ImageEntity>();
-            //modelBuilder.Entity<ThematicPageEntity>();
-            //modelBuilder.Entity<AttachmentEntity>();
-            //modelBuilder.Entity<AttachmentConversionTask>();
-
-            // I have an abstract base EntityMap class that maps Ids for my entities.
-            // It is used as the base for all my class mappings
-            //modelBuilder.Configurations.AddFromAssembly(typeof(EntityMap<>).Assembly);
-
-            // identity models fix for mysql db
-            // see: http://stackoverflow.com/questions/20832546/entity-framework-with-mysql-and-migrations-failing-because-max-key-length-is-76
-            //modelBuilder.Entity<HistoryRow>().Property(h => h.MigrationId).HasMaxLength(100).IsRequired();
-            //modelBuilder.Entity<HistoryRow>().HasKey(x => x.MigrationId);
-            //modelBuilder.Entity<HistoryRow>().Property(h => h.ContextKey).HasMaxLength(200).IsRequired();
-
-            
-            // load all assemblies with entity classes before registering them
-            //modelBuilder.RegisterTypes(_entityTypesProvider.Get());
-            
-            
-            base.OnModelCreating(modelBuilder);
-        }
+       
 
         #region IDbContext implementation
 
@@ -84,9 +39,9 @@ namespace aska.core.infrastructure.data.mysql.Context
             return base.Set<T>();
         }
 
-        Task<int> IDbContext.SaveChangesAsync()
+        Task<int> IDbContext.SaveChangesAsync(CancellationToken ct)
         {
-            return base.SaveChangesAsync();
+            return base.SaveChangesAsync(ct);
         }
         #endregion 
 
@@ -113,7 +68,7 @@ namespace aska.core.infrastructure.data.mysql.Context
         {
             var tblName = GetTableName(typeof(T), this).ToLower();
 
-            ////todo:  There is an issue with sql cmd parameters formatting. Using string.format as a workaround.
+            //todo:  There is an issue with sql cmd parameters formatting. Using string.format as a workaround.
             var result = this.Database.ExecuteSqlCommand(string.Format("TRUNCATE `{0}`;", tblName));
         }
 
@@ -134,12 +89,25 @@ namespace aska.core.infrastructure.data.mysql.Context
         
         #region migration
 
+        /// <summary>
+        /// perform all migration actions
+        /// </summary>
+        /// <returns></returns>
         string[] IDbContextMigrate.Migrate()
         {
             var pending = Database.GetPendingMigrations();
             Database.Migrate();
             return pending.ToArray();
-        }
+        }        
+        #endregion
+
+        #region metadata
+        
+        /// <summary>
+        /// Get list of entities types attached to the db context
+        /// </summary>
+        public virtual Type[] GetEntityTypes() => Model.GetEntityTypes().Select(x=>x.ClrType).ToArray();
+
         #endregion
     }
 

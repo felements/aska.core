@@ -1,45 +1,66 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using aska.core.common;
+using aska.core.infrastructure.data.ef.Query;
 using aska.core.infrastructure.data.Store;
 using Microsoft.EntityFrameworkCore;
 
 namespace aska.core.infrastructure.data.ef.Context
 {
-    internal class UnitOfWork : IUnitOfWork
+    internal sealed class UnitOfWork : IUnitOfWork
     {
+        private readonly IQueryableEntityProvider _contextProvider;
+        
         private IDbContext _ctx;
 
-        public UnitOfWork(IDbContext ctx)
+        private IDbContext GetOrResolveContext<TEntity>() where TEntity : class, IEntity 
+            => _ctx ?? (_ctx = _contextProvider.GetContext<TEntity>());
+
+
+        public UnitOfWork(IQueryableEntityProvider contextProvider)
         {
-            _ctx = ctx ?? throw new ArgumentNullException(nameof(ctx));
+            _contextProvider = contextProvider;
         }
 
-        public async Task CommitAsync()
+        public async Task CommitAsync(CancellationToken ct)
         {
-            await _ctx.SaveChangesAsync();
+            if (_ctx == null) throw new InvalidOperationException("Db context not initialized.");
+            await _ctx.SaveChangesAsync(ct);
         }
 
-        public void Save<TEntity>(TEntity entity) where TEntity : class, IEntity
+        public void AddOrUpdate<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
+            if (_ctx == null) _ctx = _contextProvider.GetContext<TEntity>();
             SaveInternal(entity);
         }
 
         public void Delete<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
-            var set = _ctx.GetDbSet<TEntity>();
-            var dbentity = (TEntity)set.FirstOrDefault(e => entity.Id.Equals(e.Id));
-            if (dbentity != null) set.Remove(dbentity);
+            var set = GetOrResolveContext<TEntity>().GetDbSet<TEntity>();
+            set.Remove(entity);
         }
 
         public void Delete<TEntity>(Guid id) where TEntity : class, IEntity
         {
-            var dbSet = _ctx.GetDbSet<TEntity>();
-            var entity = dbSet.SingleOrDefault(x => x.Id == id);
-            if (entity != null) dbSet.Remove(entity);
+            var set = GetOrResolveContext<TEntity>().GetDbSet<TEntity>();
+            var entity = set.SingleOrDefault(x => x.Id == id);
+            if (entity != null) set.Remove(entity);
         }
-        
+
+        public void Add<TEntity>(TEntity entity) where TEntity : class, IEntity
+        {
+            var set = GetOrResolveContext<TEntity>().GetDbSet<TEntity>();
+            set.Add(entity);
+        }
+
+        public void Update<TEntity>(TEntity entity) where TEntity : class, IEntity
+        {
+            var set = GetOrResolveContext<TEntity>().GetDbSet<TEntity>();
+            set.Update(entity);
+        }
+
         public void Dispose()
         {
             _ctx = null;
@@ -47,6 +68,7 @@ namespace aska.core.infrastructure.data.ef.Context
 
         private void SaveInternal<TEntity>(TEntity entity) where TEntity : class, IEntity
         {
+            
             IQueryable<TEntity> set = _ctx.GetDbSet<TEntity>();
 
             var dbentity = set.FirstOrDefault(e => entity.Id.Equals(e.Id));
