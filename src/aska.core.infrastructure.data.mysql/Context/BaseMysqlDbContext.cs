@@ -2,12 +2,11 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using aska.core.common;
 using aska.core.infrastructure.data.ef.Context;
-using aska.core.infrastructure.data.mysql.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using NLog;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using ILogger = Serilog.ILogger;
 
 namespace aska.core.infrastructure.data.mysql.Context
 {
@@ -15,20 +14,32 @@ namespace aska.core.infrastructure.data.mysql.Context
         DbContext, IDbContext, IMysqlDbContextExtendedOperations, IDbContextMigrate, IDbContextMetadata
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly bool _extendedLogging;
 
         /// <example>
         /// connstring - "server=localhost;database=kovalevskaya_design;user id=kovalevskaya_design;password=kovalevskaya_design"
         /// </example>
         /// <param name="connectionStringProvider"></param>
-        protected BaseMysqlDbContext(IConnectionStringProvider connectionStringProvider)
+        /// <param name="extendedLogging">Enable logging of the executing sql commands</param>
+        protected BaseMysqlDbContext(IConnectionStringProvider connectionStringProvider, bool extendedLogging = false)
         {
             _connectionStringProvider = connectionStringProvider;
+            _extendedLogging = extendedLogging;
         }
         
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            optionsBuilder.UseMySql(_connectionStringProvider.Get());
+            if (_extendedLogging)
+            {
+                options.EnableSensitiveDataLogging(true);
+                options.UseLoggerFactory(CurrentLoggerFactory);
+            }
+
+            options.UseMySql(_connectionStringProvider.Get());
         }
+
+        private static readonly LoggerFactory CurrentLoggerFactory
+            = new LoggerFactory(new[] { new SerilogLoggerProvider()});
        
 
         #region IDbContext implementation
@@ -111,4 +122,18 @@ namespace aska.core.infrastructure.data.mysql.Context
         #endregion
     }
 
+    
+    public class SerilogLoggerProvider : ILoggerProvider
+    {
+        private readonly ILogger _logger = Log.ForContext<SerilogLoggerProvider>();
+
+        public void Dispose()
+        {
+        }
+
+        public Microsoft.Extensions.Logging.ILogger CreateLogger(string categoryName)
+        {
+            return new Serilog.Extensions.Logging.SerilogLoggerProvider(_logger).CreateLogger(nameof(BaseMysqlDbContext));
+        }
+    }
 }
