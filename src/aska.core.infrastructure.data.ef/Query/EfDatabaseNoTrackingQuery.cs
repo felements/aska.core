@@ -11,19 +11,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace aska.core.infrastructure.data.ef.Query
 {
-    public class EfDatabaseQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
+    public class EfDatabaseNoTrackingQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
         where TEntity : class, IEntity
         where TSpecification : IExpressionSpecification<TEntity>
     {
         private IQueryable<TEntity> _query;
-        
 
-        public EfDatabaseQuery(IQueryableEntityProvider queryable)
+        public EfDatabaseNoTrackingQuery(IQueryableEntityProvider queryable)
         {
-            _query = queryable.Get<TEntity>();
+            _query = queryable.GetEntity<TEntity>().AsNoTracking();
         }
 
         public IEnumerable<TEntity> All() => _query.ToArray();
+        
         public async Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct) => await _query.ToArrayAsync(ct);
 
         public bool Any() => _query.Any();

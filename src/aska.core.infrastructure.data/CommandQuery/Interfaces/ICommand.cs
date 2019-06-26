@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 {
@@ -9,6 +10,6 @@ namespace aska.core.infrastructure.data.CommandQuery.Interfaces
 
     public interface ICommand<in T>
     {
-        Task ExecuteAsync(T context);
+        Task ExecuteAsync(T context, CancellationToken ct);
     }
 }
