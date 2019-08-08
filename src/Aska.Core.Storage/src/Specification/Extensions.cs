@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq.Expressions;
-using aska.core.common;
-using aska.core.infrastructure.data.CommandQuery.Interfaces;
-using aska.core.infrastructure.data.CommandQuery.Specification;
+using Aska.Core.Storage.Abstractions;
 
-namespace aska.core.infrastructure.data.CommandQuery
+namespace Aska.Core.Storage.Specification
 {
     public static class Extensions
     {
@@ -13,7 +11,7 @@ namespace aska.core.infrastructure.data.CommandQuery
             = new ConcurrentDictionary<Expression, object>();
 
         public static Func<TEntity, bool> AsFunc<TEntity>(this object entity, Expression<Func<TEntity, bool>> expr)
-            where TEntity : class, IEntity
+            where TEntity : class
         {
             //@see http://sergeyteplyakov.blogspot.ru/2015/06/lazy-trick-with-concurrentdictionary.html
             return (Func<TEntity, bool>)CachedFunctions.GetOrAdd(expr, id => new Lazy<object>(
@@ -21,7 +19,7 @@ namespace aska.core.infrastructure.data.CommandQuery
         }
 
         public static bool Is<TEntity>(this TEntity entity, Expression<Func<TEntity, bool>> expr)
-            where TEntity : class, IEntity
+            where TEntity : class
         {
             return AsFunc(entity, expr).Invoke(entity);
         }
@@ -29,7 +27,7 @@ namespace aska.core.infrastructure.data.CommandQuery
         public static IQuery<TEntity, IExpressionSpecification<TEntity>> Where<TEntity>(
             this IQuery<TEntity, IExpressionSpecification<TEntity>> query,
             Expression<Func<TEntity, bool>> expression)
-            where TEntity : class, IEntity
+            where TEntity : class
         {
             return query
                 .Where(new ExpressionSpecification<TEntity>(expression));

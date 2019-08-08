@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using aska.core.common;
-using aska.core.infrastructure.data.CommandQuery.Interfaces;
+using Aska.Core.Storage.Abstractions;
 
-namespace aska.core.infrastructure.data.CommandQuery.Query
+namespace Aska.Core.Storage.Query
 {
     /// <summary>
     /// Throws NotImplemented exception on all method calls.
@@ -14,8 +13,8 @@ namespace aska.core.infrastructure.data.CommandQuery.Query
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TSpecification"></typeparam>
-    public class NopeQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
-        where TEntity : class, IEntity
+    public abstract class Query<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
+        where TEntity : class
         where TSpecification : ISpecification<TEntity>
     {
         public virtual IQuery<TEntity, TSpecification> Where(Expression<Func<TEntity, bool>> expression)

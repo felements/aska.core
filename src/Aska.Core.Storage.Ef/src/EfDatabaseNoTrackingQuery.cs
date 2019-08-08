@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using aska.core.common;
-using aska.core.infrastructure.data.CommandQuery.Interfaces;
-using aska.core.infrastructure.data.ef.Context;
+using Aska.Core.Storage.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace aska.core.infrastructure.data.ef.Query
+namespace Aska.Core.Storage.Ef
 {
     public class EfDatabaseNoTrackingQuery<TEntity, TSpecification> : IQuery<TEntity, TSpecification>
-        where TEntity : class, IEntity
+        where TEntity : class
         where TSpecification : IExpressionSpecification<TEntity>
     {
         private IQueryable<TEntity> _query;
 
-        public EfDatabaseNoTrackingQuery(IQueryableEntityProvider queryable)
+        public EfDatabaseNoTrackingQuery(IDataReader reader)
         {
-            _query = queryable.GetEntity<TEntity>().AsNoTracking();
+            _query = reader.Set<TEntity>().AsNoTracking();
         }
 
-        public IEnumerable<TEntity> All() => _query.ToArray();
+        public IEnumerable<TEntity> All() => _query.ToArray().ToImmutableArray();
         
         public async Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct) => await _query.ToArrayAsync(ct);
 
