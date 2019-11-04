@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Aska.Core.Storage.Abstractions
+namespace Aska.Core.EntityStorage.Abstractions
 {
     public interface IPagedEnumerable<out T> : IEnumerable<T>
     {

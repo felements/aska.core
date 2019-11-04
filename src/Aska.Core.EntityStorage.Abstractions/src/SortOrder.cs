@@ -1,4 +1,4 @@
-﻿namespace Aska.Core.Storage.Abstractions
+﻿namespace Aska.Core.EntityStorage.Abstractions
 {
     public enum SortOrder
     {

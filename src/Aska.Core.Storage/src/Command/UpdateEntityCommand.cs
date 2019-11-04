@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Aska.Core.Storage.Abstractions;
+using Aska.Core.EntityStorage.Abstractions;
 
 namespace Aska.Core.Storage.Command
 {

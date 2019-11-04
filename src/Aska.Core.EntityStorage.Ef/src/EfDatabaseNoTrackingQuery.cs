@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Aska.Core.Storage.Abstractions;
+using Aska.Core.EntityStorage.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aska.Core.Storage.Ef

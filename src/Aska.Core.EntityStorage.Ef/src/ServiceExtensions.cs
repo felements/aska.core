@@ -1,4 +1,4 @@
-using Aska.Core.Storage.Abstractions;
+using Aska.Core.EntityStorage.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Aska.Core.Storage.Ef

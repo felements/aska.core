@@ -1,5 +1,5 @@
 using System.Linq;
-using Aska.Core.Storage.Abstractions;
+using Aska.Core.EntityStorage.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aska.Core.Storage.Ef.MariaDb

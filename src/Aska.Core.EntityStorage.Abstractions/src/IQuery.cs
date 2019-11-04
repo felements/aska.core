@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Aska.Core.Storage.Abstractions
+namespace Aska.Core.EntityStorage.Abstractions
 {
     public interface IQuery<TEntity, in TSpecification>
         where TEntity : class
@@ -18,26 +18,18 @@ namespace Aska.Core.Storage.Abstractions
            Expression<Func<TEntity, TProperty>> expression,
            SortOrder sortOrder = SortOrder.Ascending);
 
-        //IQuery<TEntity, TSpecification> Include<TProperty>(Expression<Func<TEntity, TProperty>> expression);
-
-        TEntity Single();
         Task<TEntity> SingleAsync(CancellationToken ct);
 
-        TEntity SingleOrDefault();
         Task<TEntity> SingleOrDefaultAsync(CancellationToken ct);
 
-        TEntity FirstOrDefault();
         Task<TEntity> FirstOrDefaultAsync(CancellationToken ct);
 
-        IEnumerable<TEntity> All();
         Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct);
 
-        bool Any();
         Task<bool> AnyAsync(CancellationToken ct);
 
-        IEnumerable<TEntity> Paged(int? pageNumber, int? take);
-
-        int Count();
         Task<int> CountAsync(CancellationToken ct);
+        
+        //todo: paged
     }
 }

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>Aska.Core.Storage.Ef</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

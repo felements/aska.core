@@ -1,5 +1,5 @@
 ﻿using System;
-using Aska.Core.Storage.Abstractions;
+using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.Storage.Command;
 using Microsoft.Extensions.DependencyInjection;
 

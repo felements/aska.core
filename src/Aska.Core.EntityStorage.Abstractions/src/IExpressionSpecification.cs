@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Aska.Core.Storage.Abstractions
+namespace Aska.Core.EntityStorage.Abstractions
 {
     public interface IExpressionSpecification<T> : ISpecification<T>
         where T : class

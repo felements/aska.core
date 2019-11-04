@@ -11,17 +11,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aska.core.infrastructure.da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aska.core.network", "aska.core.network\aska.core.network.csproj", "{A436654E-A499-4C30-8A91-2A616EC96BDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage.Abstractions", "Aska.Core.Storage.Abstractions\Aska.Core.Storage.Abstractions.csproj", "{1C2B09D4-C15F-49A1-A6BB-F49B21B059BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Abstractions", "Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj", "{1C2B09D4-C15F-49A1-A6BB-F49B21B059BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage", "Aska.Core.Storage\Aska.Core.Storage.csproj", "{1A7237DD-D1E0-46FB-B690-68D480B38E21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage.Ef", "Aska.Core.Storage.Ef\Aska.Core.Storage.Ef.csproj", "{766B8DBF-E00F-4433-9E9A-DF01D3FE72C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef", "Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj", "{766B8DBF-E00F-4433-9E9A-DF01D3FE72C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage.Ef.MariaDb", "Aska.Core.Storage.Ef.MariaDb\Aska.Core.Storage.Ef.MariaDb.csproj", "{E4FC0953-0FC1-4CFE-8D5D-BDDDA5543D6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage.Ef.Postgresql", "Aska.Core.Storage.Ef.Postgresql\Aska.Core.Storage.Ef.Postgresql.csproj", "{378BDB29-EF6D-4C98-AC82-E6033EE90AD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage.Ef.Sqlite", "Aska.Core.Storage.Ef.Sqlite\Aska.Core.Storage.Ef.Sqlite.csproj", "{24BC7E86-F0B1-425F-933A-ADF0294010DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.Sqlite", "Aska.Core.EntityStorage.Ef.Sqlite\Aska.Core.EntityStorage.Ef.Sqlite.csproj", "{24BC7E86-F0B1-425F-933A-ADF0294010DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

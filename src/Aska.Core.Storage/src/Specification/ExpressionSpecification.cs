@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Aska.Core.Storage.Abstractions;
+using Aska.Core.EntityStorage.Abstractions;
 
 namespace Aska.Core.Storage.Specification
 {
