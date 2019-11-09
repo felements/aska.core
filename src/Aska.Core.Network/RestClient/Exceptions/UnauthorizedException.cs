@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 
-namespace aska.core.network.RestClient.Exceptions
+namespace Aska.Core.Network.RestClient.Exceptions
 {
     public class UnauthorizedException : Exception
     {

@@ -20,4 +20,8 @@
       <ProjectReference Include="..\Aska.Core.EntityStorage.Ef.Sqlite\Aska.Core.EntityStorage.Ef.Sqlite.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="demo.db" />
+    </ItemGroup>
+
 </Project>

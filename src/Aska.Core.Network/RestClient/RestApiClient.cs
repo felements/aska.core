@@ -5,12 +5,12 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using aska.core.network.RestClient.Exceptions;
+using Aska.Core.Network.RestClient.Exceptions;
 using Newtonsoft.Json;
 
-namespace aska.core.network.RestClient
+namespace Aska.Core.Network.RestClient
 {
-    public class RestApiClient : IRestApiClient
+    internal class RestApiClient : IRestApiClient
     {
         private readonly Lazy<HttpClient> _client;
         private string _authToken;
@@ -71,7 +71,7 @@ namespace aska.core.network.RestClient
             var client = new HttpClient(handler);
             client.BaseAddress = baseUrl;
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("aska-core","0.1.0")); //todo: get product version
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("todo","0.1.0")); //todo: move to config
             if (!string.IsNullOrWhiteSpace(token))
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             return client;

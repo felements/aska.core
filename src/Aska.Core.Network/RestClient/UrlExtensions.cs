@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace aska.core.network.RestClient
+namespace Aska.Core.Network.RestClient
 {
     public static class UriExtensions
     {

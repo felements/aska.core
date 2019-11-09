@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28721.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aska.core.network", "aska.core.network\aska.core.network.csproj", "{A436654E-A499-4C30-8A91-2A616EC96BDD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Network", "Aska.Core.Network\Aska.Core.Network.csproj", "{A436654E-A499-4C30-8A91-2A616EC96BDD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Abstractions", "Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj", "{1C2B09D4-C15F-49A1-A6BB-F49B21B059BC}"
 EndProject

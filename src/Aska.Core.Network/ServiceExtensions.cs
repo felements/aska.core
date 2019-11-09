@@ -1,11 +1,11 @@
-using aska.core.network.RestClient;
+using Aska.Core.Network.RestClient;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace aska.core.network
+namespace Aska.Core.Network
 {
     public static class ServiceExtensions
     {
-        public static void AddNetworkServices(this IServiceCollection services)
+        public static void AddRestClient(this IServiceCollection services)
         {
             services.AddScoped<IRestApiClient, RestApiClient>();
         }
