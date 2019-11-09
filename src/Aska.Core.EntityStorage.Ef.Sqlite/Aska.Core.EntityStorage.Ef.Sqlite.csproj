@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>Aska.Core.Storage.Ef.Sqlite</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj" />
+      <ProjectReference Include="..\Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="GitVersionCore" Version="5.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.0.0" />
+    </ItemGroup>
+
+</Project>
