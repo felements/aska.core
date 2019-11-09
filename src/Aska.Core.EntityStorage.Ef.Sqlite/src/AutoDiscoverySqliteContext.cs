@@ -9,29 +9,36 @@ namespace Aska.Core.Storage.Ef.Sqlite
 {
     public class AutoDiscoverySqliteContext : EntityStorageContext
     {
-        private readonly IConnectionStringProvider<AutoDiscoverySqliteContext> _connectionStringProvider;
-        private readonly ITypeDiscoveryProvider<AutoDiscoverySqliteContext> _typeProvider;
+        private readonly Func<string> _connectionStringProvider;
+        private readonly Func<Type[]> _entityTypeProvider;
+
+        protected AutoDiscoverySqliteContext(
+            Func<string> connectionStringProvider,
+            Func<Type[]> entityTypeProvider)
+        {
+            _connectionStringProvider = connectionStringProvider;
+            _entityTypeProvider = entityTypeProvider;
+        }
 
         public AutoDiscoverySqliteContext(
             IConnectionStringProvider<AutoDiscoverySqliteContext> connectionStringProvider,
             ITypeDiscoveryProvider<AutoDiscoverySqliteContext> typeProvider)
+            : this(connectionStringProvider.GetConnectionString, typeProvider.Discover)
         {
-            _connectionStringProvider = connectionStringProvider;
-            _typeProvider = typeProvider;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             base.OnConfiguring(options);
 
-            options.UseSqlite(_connectionStringProvider.GetConnectionString());
+            options.UseSqlite(_connectionStringProvider());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            var entityTypes= _typeProvider.Discover();
+            var entityTypes = _entityTypeProvider();
             modelBuilder.RegisterTypes(entityTypes);
         }
     }
@@ -42,7 +49,7 @@ namespace Aska.Core.Storage.Ef.Sqlite
         {
             foreach (var type in types)
             {
-                builder.Entity(type).ToTable(type.Name);
+                builder.Entity(type).ToTable(type.Name).HasNoKey();
             }
         }
     }

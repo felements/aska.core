@@ -1,7 +1,12 @@
 ﻿namespace Aska.Core.EntityStorage.Abstractions
 {
-    public interface IConnectionStringProvider<TContext> where TContext: IStorageContext
+    public interface IConnectionStringProvider
     {
         string GetConnectionString();
+    }
+    
+    public interface IConnectionStringProvider<TContext>: IConnectionStringProvider 
+        where TContext: IStorageContext
+    {
     }
 }

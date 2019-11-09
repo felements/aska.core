@@ -66,22 +66,14 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb
                             forceLoadAssemblies),
                         pr.GetRequiredService<ITypeDiscoveryProvider>()));
                 
-                // register entities
-                foreach (var entityType in new TypeDiscoveryProvider().Discover(typeof(TBaseEntity), assemblyNamePrefix, forceLoadAssemblies) )
-                {
-                    var readerInterfaceType = typeof(IEntityStorageReader<>).MakeGenericType(entityType);
-                    var writerInterfaceType = typeof(IEntityStorageWriter<>).MakeGenericType(entityType);
+                Aska.Core.Storage.Ef.ServiceExtensions.RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
+                    _services, assemblyNamePrefix, forceLoadAssemblies);
 
-                    var readerProxyType = typeof(EntityStorageReaderContextProxy<,>).MakeGenericType(entityType, typeof(TContext));
-                    var writerProxyType = typeof(EntityStorageWriterContextProxy<,>).MakeGenericType(entityType, typeof(TContext));
-
-                    _services.AddTransient(readerInterfaceType, readerProxyType);
-                    _services.AddTransient(writerInterfaceType, writerProxyType);
-                }
-                
                 return this;
             }
+
             
+
             /// <summary>
             /// Specify MariaDb connection string
             /// </summary>

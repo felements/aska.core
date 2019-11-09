@@ -9,29 +9,36 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb
 {
     public class AutoDiscoveryMariaDbContext : EntityStorageContext
     {
-        private readonly IConnectionStringProvider<AutoDiscoveryMariaDbContext> _connectionStringProvider;
-        private readonly ITypeDiscoveryProvider<AutoDiscoveryMariaDbContext> _typeDiscoveryProvider;
+        private readonly Func<string> _connectionStringProvider;
+        private readonly Func<Type[]> _entityTypesProvider;
+
+        protected AutoDiscoveryMariaDbContext(
+            Func<string> connectionStringProvider,
+            Func<Type[]> entityTypesProvider)
+        {
+            _connectionStringProvider = connectionStringProvider;
+            _entityTypesProvider = entityTypesProvider;
+        }
 
         public AutoDiscoveryMariaDbContext(
             IConnectionStringProvider<AutoDiscoveryMariaDbContext> connectionStringProvider,
             ITypeDiscoveryProvider<AutoDiscoveryMariaDbContext> typeDiscoveryProvider)
+            : this(connectionStringProvider.GetConnectionString, typeDiscoveryProvider.Discover)
         {
-            _connectionStringProvider = connectionStringProvider;
-            _typeDiscoveryProvider = typeDiscoveryProvider;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             base.OnConfiguring(options);
 
-            options.UseMySql(_connectionStringProvider.GetConnectionString());
+            options.UseMySql(_connectionStringProvider());
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            var entityTypes= _typeDiscoveryProvider.Discover();
+            var entityTypes= _entityTypesProvider();
             modelBuilder.RegisterTypes(entityTypes);
         }
     }
@@ -42,7 +49,8 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb
         {
             foreach (var type in types)
             {
-                builder.Entity(type).ToTable(type.Name).HasNoKey();
+                builder.Entity(type).ToTable(type.Name)
+                    .HasNoKey();//todo
             }
         }
     }

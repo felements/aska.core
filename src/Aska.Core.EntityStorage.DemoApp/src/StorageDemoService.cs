@@ -7,13 +7,13 @@ using Microsoft.Extensions.Hosting;
 
 namespace Aska.Core.EntityStorage.DemoApp
 {
-    internal sealed class StorageService: IHostedService
+    internal sealed class StorageDemoService: IHostedService
     {
         private readonly IEntityStorageContextInitializer _contextInitializer;
         private readonly IQueryFactory _queryFactory;
         private readonly ICommandFactory _commandFactory;
 
-        public StorageService(
+        public StorageDemoService(
             IEntityStorageContextInitializer contextInitializer, 
             IQueryFactory queryFactory,
             ICommandFactory commandFactory)
@@ -30,12 +30,15 @@ namespace Aska.Core.EntityStorage.DemoApp
             var maria = await _queryFactory
                 .GetQuery<MariaDbEntity>()
                 .AllAsync(cancellationToken);
-           // var sqlite = await _queryFactory.GetQuery<SqliteEntity>().AllAsync(cancellationToken);
+            
+            var sqlite = await _queryFactory
+                .GetQuery<SqliteEntity>()
+                .AllAsync(cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.CompletedTask;
         }
     }
 }

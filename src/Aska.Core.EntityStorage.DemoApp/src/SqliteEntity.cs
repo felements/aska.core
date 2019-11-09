@@ -19,8 +19,8 @@ namespace Aska.Core.EntityStorage.DemoApp
             Description = description;
         }
         
-        public Guid Id { get; }
+        public Guid Id { get; private set; }
         
-        public string Description { get; }
+        public string Description { get; private  set; }
     }
 }

@@ -4,6 +4,7 @@ using Aska.Core.Storage.Ef;
 using Aska.Core.Storage.Ef.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Aska.Core.EntityStorage.DemoApp
 {
@@ -16,10 +17,10 @@ namespace Aska.Core.EntityStorage.DemoApp
                 .ConfigureServices(services =>
                 {
                     services
-                        .AddHostedService<StorageService>()
+                        .AddHostedService<StorageDemoService>()
                         .AddEntityStorage(opt =>
                         {
-                            opt.UseMariaDb()
+                            opt.UseMariaDb<DemoMariaDbContext>()
                                 .WithEntitiesAutoDiscovery<IMariaDbEntity>("Aska.Core.EntityStorage.Demo", true)
                                 .WithConnectionString(
                                     MariaDbConnectionString.Create()
@@ -28,14 +29,13 @@ namespace Aska.Core.EntityStorage.DemoApp
                                         .WithUser("askaone")
                                         .WithPassword("askaone"));
                             
-                            opt.UseSqlite()
+                            opt.UseSqlite<DemoSqliteContext>()
                                 .WithEntitiesAutoDiscovery<ISqliteEntity>("Aska.Core.EntityStorage.Demo", true)
-                                .WithConnectionString("");//todo
+                                .WithConnectionString(SqliteConnectionString.Create()
+                                    .WithDataFile("./../../../demo.db"));
                         });
                 })
-                .ConfigureAppConfiguration((ctx, builder) =>
-                {
-                    //todo: connection options
-                });
+                .ConfigureLogging(options => 
+                    options.AddConsole());
     }
 }

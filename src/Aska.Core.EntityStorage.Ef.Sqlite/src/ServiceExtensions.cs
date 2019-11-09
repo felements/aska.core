@@ -45,6 +45,8 @@ namespace Aska.Core.Storage.Ef.Sqlite
                 _services.AddTransient<IEntityStorageReader, TContext>();
                 _services.AddTransient<IEntityStorageWriter, TContext>();
                 _services.AddTransient<IEntityStorageInitialize, TContext>();
+                
+                _services.AddDbContext<TContext>();
             }
             
             /// <summary>
@@ -61,6 +63,9 @@ namespace Aska.Core.Storage.Ef.Sqlite
                             assemblyNamePrefix,
                             forceLoadAssemblies),
                         pr.GetRequiredService<ITypeDiscoveryProvider>()));
+                
+                Aska.Core.Storage.Ef.ServiceExtensions.RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
+                    _services, assemblyNamePrefix, forceLoadAssemblies);
                 return this;
             }
             
