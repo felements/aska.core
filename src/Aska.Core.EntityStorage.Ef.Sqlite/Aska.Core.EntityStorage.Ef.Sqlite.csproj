@@ -5,6 +5,17 @@
         <RootNamespace>Aska.Core.Storage.Ef.Sqlite</RootNamespace>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>Aska.Core.EntityStorage.Ef.Sqlite</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Title>CQRS entity storage - EF + Sqlite implementation</Title>
+        <Description>[TBD]</Description>
+        <Version>0.1.1-alpha.1</Version>
+        <Authors>f-elements</Authors>
+        <Company>Aska One Inc.</Company>
+        <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
+    </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj" />
       <ProjectReference Include="..\Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj" />

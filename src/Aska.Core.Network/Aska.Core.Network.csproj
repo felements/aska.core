@@ -5,6 +5,17 @@
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>Aska.Core.Network</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Title>Networking tools</Title>
+        <Description>[TBD]</Description>
+        <Version>0.1.0-alpha.1</Version>
+        <Authors>f-elements</Authors>
+        <Company>Aska One Inc.</Company>
+        <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
+    </PropertyGroup>
+
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
       <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />

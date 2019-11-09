@@ -1,7 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
+        <TargetFramework>netstandard2.1</TargetFramework>        
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>Aska.Core.EntityStorage.Abstractions</PackageId>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Title>CQRS entity storage abstractions</Title>
+        <Description>[TBD]</Description>
+        <Version>0.1.1-alpha.1</Version>
+        <Authors>f-elements</Authors>
+        <Company>Aska One Inc.</Company>
+        <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
     </PropertyGroup>
 
 </Project>
