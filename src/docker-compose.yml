@@ -15,6 +15,20 @@ services:
     volumes:
       #- ./custom/:/etc/mysql/conf.d/my.cnf
       - mysql:/var/lib/mysql
+      
+  postgresql:
+    image: postgres:latest     
+    environment:
+      POSTGRES_PASSWORD: askaone
+      POSTGRES_USER: askaone 
+      POSTGRES_DB: askaone
+      PGDATA: /data/postgres      
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: always
 
 volumes:
   mysql:
+  postgres:

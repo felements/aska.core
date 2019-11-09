@@ -34,6 +34,10 @@ namespace Aska.Core.EntityStorage.DemoApp
             var sqlite = await _queryFactory
                 .GetQuery<SqliteEntity>()
                 .AllAsync(cancellationToken);
+
+            var psql = await _queryFactory
+                .GetQuery<PsqlEntity>()
+                .AllAsync(cancellationToken);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

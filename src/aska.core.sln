@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.MariaDb", "Aska.Core.EntityStorage.Ef.MariaDb\Aska.Core.EntityStorage.Ef.MariaDb.csproj", "{E4FC0953-0FC1-4CFE-8D5D-BDDDA5543D6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.Postgresql", "Aska.Core.EntityStorage.Ef.Postgresql\Aska.Core.EntityStorage.Ef.Postgresql.csproj", "{378BDB29-EF6D-4C98-AC82-E6033EE90AD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.PostgreSql", "Aska.Core.EntityStorage.Ef.PostgreSql\Aska.Core.EntityStorage.Ef.PostgreSql.csproj", "{378BDB29-EF6D-4C98-AC82-E6033EE90AD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.Sqlite", "Aska.Core.EntityStorage.Ef.Sqlite\Aska.Core.EntityStorage.Ef.Sqlite.csproj", "{24BC7E86-F0B1-425F-933A-ADF0294010DA}"
 EndProject

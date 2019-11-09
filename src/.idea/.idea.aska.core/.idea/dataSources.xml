@@ -13,5 +13,11 @@
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Aska.Core.EntityStorage.DemoApp/demo.db</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="askaone@localhost [2]" uuid="66dc2d60-a483-4d2f-bc36-4d0536db8bbe">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/askaone</jdbc-url>
+    </data-source>
   </component>
 </project>

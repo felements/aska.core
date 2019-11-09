@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Ef.MariaDb;
+using Aska.Core.EntityStorage.Ef.PostgreSql;
 using Aska.Core.Storage.Ef;
 using Aska.Core.Storage.Ef.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,15 @@ namespace Aska.Core.EntityStorage.DemoApp
                                 .WithEntitiesAutoDiscovery<IMariaDbEntity>("Aska.Core.EntityStorage.Demo", true)
                                 .WithConnectionString(
                                     MariaDbConnectionString.Create()
+                                        .WithServer("localhost")
+                                        .WithDatabase("askaone")
+                                        .WithUser("askaone")
+                                        .WithPassword("askaone"));
+                            
+                            opt.UsePostgresql<DemoPsqlContext>()
+                                .WithEntitiesAutoDiscovery<IPsqlEntity>("Aska.Core.EntityStorage.Demo", true)
+                                .WithConnectionString(
+                                    PsqlConnectionString.Create()
                                         .WithServer("localhost")
                                         .WithDatabase("askaone")
                                         .WithUser("askaone")

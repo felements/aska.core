@@ -16,7 +16,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj" />
       <ProjectReference Include="..\Aska.Core.EntityStorage.Ef.MariaDb\Aska.Core.EntityStorage.Ef.MariaDb.csproj" />
-      <ProjectReference Include="..\Aska.Core.EntityStorage.Ef.Postgresql\Aska.Core.EntityStorage.Ef.Postgresql.csproj" />
+      <ProjectReference Include="..\Aska.Core.EntityStorage.Ef.PostgreSql\Aska.Core.EntityStorage.Ef.PostgreSql.csproj" />
       <ProjectReference Include="..\Aska.Core.EntityStorage.Ef.Sqlite\Aska.Core.EntityStorage.Ef.Sqlite.csproj" />
     </ItemGroup>
 
