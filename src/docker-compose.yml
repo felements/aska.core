@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: askaone
+      MYSQL_DATABASE: askaone
+      MYSQL_USER: askaone
+      MYSQL_PASSWORD: askaone
+    ports:
+      - "3306:3306"
+    volumes:
+      #- ./custom/:/etc/mysql/conf.d/my.cnf
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:

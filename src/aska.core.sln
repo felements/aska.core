@@ -3,25 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28721.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aska.core.infrastructure.data", "aska.core.infrastructure.data\aska.core.infrastructure.data.csproj", "{68065A99-4EA2-48B9-AAC1-F87B73C3ACB4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aska.core.infrastructure.data.ef", "aska.core.infrastructure.data.ef\aska.core.infrastructure.data.ef.csproj", "{787923C9-90AB-43F2-9504-19416C6FF31E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "aska.core.infrastructure.data.mysql", "aska.core.infrastructure.data.mysql\aska.core.infrastructure.data.mysql.csproj", "{74726993-99E6-458D-8B36-E7EE99DB0CEA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aska.core.network", "aska.core.network\aska.core.network.csproj", "{A436654E-A499-4C30-8A91-2A616EC96BDD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Abstractions", "Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj", "{1C2B09D4-C15F-49A1-A6BB-F49B21B059BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage", "Aska.Core.Storage\Aska.Core.Storage.csproj", "{1A7237DD-D1E0-46FB-B690-68D480B38E21}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef", "Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj", "{766B8DBF-E00F-4433-9E9A-DF01D3FE72C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage.Ef.MariaDb", "Aska.Core.Storage.Ef.MariaDb\Aska.Core.Storage.Ef.MariaDb.csproj", "{E4FC0953-0FC1-4CFE-8D5D-BDDDA5543D6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.MariaDb", "Aska.Core.EntityStorage.Ef.MariaDb\Aska.Core.EntityStorage.Ef.MariaDb.csproj", "{E4FC0953-0FC1-4CFE-8D5D-BDDDA5543D6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.Storage.Ef.Postgresql", "Aska.Core.Storage.Ef.Postgresql\Aska.Core.Storage.Ef.Postgresql.csproj", "{378BDB29-EF6D-4C98-AC82-E6033EE90AD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.Postgresql", "Aska.Core.EntityStorage.Ef.Postgresql\Aska.Core.EntityStorage.Ef.Postgresql.csproj", "{378BDB29-EF6D-4C98-AC82-E6033EE90AD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.Ef.Sqlite", "Aska.Core.EntityStorage.Ef.Sqlite\Aska.Core.EntityStorage.Ef.Sqlite.csproj", "{24BC7E86-F0B1-425F-933A-ADF0294010DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aska.Core.EntityStorage.DemoApp", "Aska.Core.EntityStorage.DemoApp\Aska.Core.EntityStorage.DemoApp.csproj", "{683E176D-6E14-4C76-A4A1-4F032F67C206}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68065A99-4EA2-48B9-AAC1-F87B73C3ACB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68065A99-4EA2-48B9-AAC1-F87B73C3ACB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68065A99-4EA2-48B9-AAC1-F87B73C3ACB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68065A99-4EA2-48B9-AAC1-F87B73C3ACB4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{787923C9-90AB-43F2-9504-19416C6FF31E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{787923C9-90AB-43F2-9504-19416C6FF31E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{787923C9-90AB-43F2-9504-19416C6FF31E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{787923C9-90AB-43F2-9504-19416C6FF31E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74726993-99E6-458D-8B36-E7EE99DB0CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74726993-99E6-458D-8B36-E7EE99DB0CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74726993-99E6-458D-8B36-E7EE99DB0CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74726993-99E6-458D-8B36-E7EE99DB0CEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A436654E-A499-4C30-8A91-2A616EC96BDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A436654E-A499-4C30-8A91-2A616EC96BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A436654E-A499-4C30-8A91-2A616EC96BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,10 +31,6 @@ Global
 		{1C2B09D4-C15F-49A1-A6BB-F49B21B059BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C2B09D4-C15F-49A1-A6BB-F49B21B059BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C2B09D4-C15F-49A1-A6BB-F49B21B059BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1A7237DD-D1E0-46FB-B690-68D480B38E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A7237DD-D1E0-46FB-B690-68D480B38E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A7237DD-D1E0-46FB-B690-68D480B38E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A7237DD-D1E0-46FB-B690-68D480B38E21}.Release|Any CPU.Build.0 = Release|Any CPU
 		{766B8DBF-E00F-4433-9E9A-DF01D3FE72C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{766B8DBF-E00F-4433-9E9A-DF01D3FE72C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{766B8DBF-E00F-4433-9E9A-DF01D3FE72C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +47,10 @@ Global
 		{24BC7E86-F0B1-425F-933A-ADF0294010DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24BC7E86-F0B1-425F-933A-ADF0294010DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24BC7E86-F0B1-425F-933A-ADF0294010DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{683E176D-6E14-4C76-A4A1-4F032F67C206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{683E176D-6E14-4C76-A4A1-4F032F67C206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{683E176D-6E14-4C76-A4A1-4F032F67C206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{683E176D-6E14-4C76-A4A1-4F032F67C206}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -18,18 +18,23 @@ namespace Aska.Core.EntityStorage.Abstractions
            Expression<Func<TEntity, TProperty>> expression,
            SortOrder sortOrder = SortOrder.Ascending);
 
-        Task<TEntity> SingleAsync(CancellationToken ct);
+        Task<TEntity> SingleAsync(CancellationToken ct = default);
 
-        Task<TEntity> SingleOrDefaultAsync(CancellationToken ct);
+        Task<TEntity> SingleOrDefaultAsync(CancellationToken ct = default);
 
-        Task<TEntity> FirstOrDefaultAsync(CancellationToken ct);
+        Task<TEntity> FirstOrDefaultAsync(CancellationToken ct = default);
 
-        Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct);
+        Task<IEnumerable<TEntity>> AllAsync(CancellationToken ct = default);
 
-        Task<bool> AnyAsync(CancellationToken ct);
+        Task<bool> AnyAsync(CancellationToken ct = default);
 
-        Task<int> CountAsync(CancellationToken ct);
+        Task<int> CountAsync(CancellationToken ct = default);
         
         //todo: paged
+    }
+    
+    public interface IQuery<TEntity> : IQuery<TEntity, IExpressionSpecification<TEntity>> where TEntity : class
+    {
+        
     }
 }

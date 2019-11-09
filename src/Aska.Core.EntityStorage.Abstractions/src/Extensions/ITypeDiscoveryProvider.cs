@@ -1,7 +1,14 @@
 using System;
+using System.Collections.Generic;
 
 namespace Aska.Core.EntityStorage.Abstractions.Extensions
 {
+    public interface ITypeDiscoveryProvider<TContext> 
+        where TContext: IStorageContext
+    {
+        Type[] Discover();
+    }
+
     public interface ITypeDiscoveryProvider
     {
         /// <summary>
@@ -11,6 +18,7 @@ namespace Aska.Core.EntityStorage.Abstractions.Extensions
         /// <param name="assemblyPrefix">Assembly name prefix to filter out the area where to discover</param>
         /// <param name="forceLoadAssemblies">Force load assemblies before discovery</param>
         /// <returns>Discovered types that are derived from the base type</returns>
+        //Type[] Discover(Type baseType, string assemblyPrefix, bool forceLoadAssemblies = false);
         Type[] Discover(Type baseType, string assemblyPrefix, bool forceLoadAssemblies = false);
     }
 }

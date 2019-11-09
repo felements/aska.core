@@ -5,16 +5,26 @@ using System.Threading.Tasks;
 
 namespace Aska.Core.EntityStorage.Abstractions
 {
+    public interface IStorageContext
+    {
+    }
+    
     public interface IEntityStorageContext : IEntityStorageInitialize, IEntityStorageReader, IEntityStorageWriter
     {
     }
 
-    public interface IEntityStorageReader
+    public interface IEntityStorageReader : IStorageContext
     {
         IQueryable<T> Get<T>() where T : class;
     }
 
-    public interface IEntityStorageWriter
+    public interface IEntityStorageReader<out T> : IStorageContext 
+        where T : class
+    {
+        IQueryable<T> Get();
+    }
+
+    public interface IEntityStorageWriter : IStorageContext
     {
         void Add<T>(T entity) where T : class;
         void Add<T>(IEnumerable<T> entity) where T : class;
@@ -25,11 +35,25 @@ namespace Aska.Core.EntityStorage.Abstractions
         void Remove<T>(T entity) where T : class;
         void Remove<T>(IEnumerable<T> entity) where T : class;
         
-        Task<int> SaveAsync(CancellationToken cancellationToken);
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
     
-    public interface IEntityStorageInitialize
+    public interface IEntityStorageWriter<in T> : IStorageContext where T: class
     {
-        void Initialize();
+        void Add(T entity);
+        void Add(IEnumerable<T> entities);
+        
+        void Update(T entity);
+        void Update(IEnumerable<T> entity);
+        
+        void Remove(T entity);
+        void Remove(IEnumerable<T> entity);
+        
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
+    }
+    
+    public interface IEntityStorageInitialize : IStorageContext
+    {
+        Task InitializeAsync(CancellationToken cancellationToken = default);
     }
 }

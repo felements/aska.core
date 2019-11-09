@@ -5,8 +5,7 @@
         TCommand GetCommand<TEntity, TCommand, TResult>()
             where TCommand : ICommand<TEntity, TResult>;
 
-        T GetCommand<T>()
-            where T : ICommandBase;
+        T GetCommand<T>() where T : ICommandBase;
 
         ICreateCommand<T> GetCreateCommand<T>() where T : class;
         IDeleteCommand<T> GetDeleteCommand<T>() where T : class;

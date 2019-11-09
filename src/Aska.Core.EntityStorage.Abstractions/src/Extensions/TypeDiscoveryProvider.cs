@@ -3,12 +3,32 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace Aska.Core.EntityStorage.Abstractions.Extensions
 {
+    public class TypeDiscoveryProvider<TContext> : ITypeDiscoveryProvider<TContext> 
+        where TContext : IStorageContext
+    {
+        private readonly Lazy<Type[]> _discoveredTypes;
+        public TypeDiscoveryProvider(TypeDiscoveryOptions options, ITypeDiscoveryProvider discoveryProvider)
+        {
+            _discoveredTypes = new Lazy<Type[]>(
+                () => discoveryProvider.Discover(options.BaseType, options.AssemblyNamePrefix, options.ForceLoadAssemblies),
+                LazyThreadSafetyMode.ExecutionAndPublication);
+        }
+
+        public Type[] Discover() => _discoveredTypes.Value;
+    }
+
     public class TypeDiscoveryProvider : ITypeDiscoveryProvider
     {
-        public Type[] Discover(Type baseType, string assemblyPrefix, bool forceLoadAssemblies = false)
+        public Type[] Discover(Type baseType, string assemblyPrefix, bool forceLoadAssemblies)
+        {
+            return DiscoverInternal(baseType, assemblyPrefix, forceLoadAssemblies);
+        }
+        
+        private static Type[] DiscoverInternal(Type baseType, string assemblyPrefix, bool forceLoadAssemblies = false)
         {
             if (forceLoadAssemblies) ForceLoadAssembliesSafe(assemblyPrefix);
             
@@ -66,5 +86,8 @@ namespace Aska.Core.EntityStorage.Abstractions.Extensions
                 // ignored
             }
         }
+
+
+        
     }
 }
