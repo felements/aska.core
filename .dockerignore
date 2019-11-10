@@ -1,0 +1,9 @@
+**/bin
+**/obj
+**/out/
+**/.vscode
+**/.idea
+**/.vs
+
+# files
+Dockerfile*

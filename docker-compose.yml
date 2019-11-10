@@ -2,6 +2,17 @@ version: '3.7'
 
 services:
 
+  build-abstractions:
+    build:
+      context: .
+      target: pack
+      # build | test | pack | publish
+    environment:
+      NUGET_PROJECT: Aska.Core.EntityStorage.Abstractions
+      #NUGET_KEY: todo - from CI env
+      #NUGET_VERSION: todo - from CI env
+    restart: on-failure
+    
   mariadb:
     image: mariadb:latest
     restart: always
@@ -13,11 +24,11 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      #- ./custom/:/etc/mysql/conf.d/my.cnf
       - mysql:/var/lib/mysql
       
   postgresql:
     image: postgres:latest     
+    restart: always
     environment:
       POSTGRES_PASSWORD: askaone
       POSTGRES_USER: askaone 
@@ -27,8 +38,10 @@ services:
       - postgres:/data/postgres
     ports:
       - "5432:5432"
-    restart: always
+    
 
 volumes:
   mysql:
   postgres:
+
+ #todo: compose files for test and publish 

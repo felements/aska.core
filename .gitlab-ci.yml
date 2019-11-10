@@ -1,0 +1,50 @@
+stages:
+ - version
+ - build
+ - test
+ - publish
+
+default:
+  before_script:
+    - mkdir build
+
+
+get-version:
+ stage: version
+ tags:
+  - docker-compose
+ only:
+  - master
+  - develop
+  - feature/*
+ script:
+  - ./ci/git-version.sh > ./build/version.json
+ artifacts:
+  name: "app_${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}_${CI_BUILD_REF}"
+  when: on_success
+  expire_in: 1 week
+  paths:
+   - build
+
+
+
+# build_images:
+#  stage: build
+#  tags:
+#   - docker-compose
+#  only:
+#   - master
+#   - develop   
+#  script:
+#   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+
+
+# deploy_prod_app:
+#  stage: deploy
+#  tags:
+#   - docker-compose
+#   - docker-deploy
+#  only:
+#   - master 
+#  script:
+#   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d

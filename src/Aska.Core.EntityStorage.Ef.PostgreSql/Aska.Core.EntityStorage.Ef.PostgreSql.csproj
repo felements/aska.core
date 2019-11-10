@@ -16,7 +16,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj" />
       <ProjectReference Include="..\Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj" />
     </ItemGroup>
 
