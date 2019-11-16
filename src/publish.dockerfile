@@ -47,5 +47,7 @@ COPY --from=pack /nuget .
 RUN echo "Publishing NUGET ${NUGET_PROJECT}.${NUGET_VERSION}.nupkg" \
  && ls -lah
 
-RUN dotnet nuget push ${NUGET_PROJECT}.${NUGET_VERSION}.nupkg --api-key $NUGET_TOKEN --source https://api.nuget.org/v3/index.json \
+RUN package="${NUGET_PROJECT}.${NUGET_VERSION}.nupkg" \
+ && echo "Pushing - $package with token $NUGET_TOKEN" \
+ && dotnet nuget push $package --source https://api.nuget.org/v3/index.json --api-key $NUGET_TOKEN \
  && echo 'Done.'
