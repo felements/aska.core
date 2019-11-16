@@ -9,7 +9,7 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <Title>CQRS entity storage - EF + MariaDb implementation</Title>
         <Description>[TBD]</Description>
-        <Version>0.1.1-alpha.1</Version>
+        <Version>0.1.0</Version>
         <Authors>f-elements</Authors>
         <Company>Aska One Inc.</Company>
         <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>

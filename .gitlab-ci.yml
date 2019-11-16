@@ -1,53 +1,162 @@
+.publish-nuget: &publish-nuget
+  tags:
+    - docker
+  only:
+   - master
+   - develop
+   - /^feature\/.*$/i 
+  except:
+   - tags
+  script:
+    - NUGET_VERSION="$(jq '.SemVer' ./build/version.json | sed 's/\"//g')"
+    - echo "Publishing NUGET $NUGET_PROJECT - $NUGET_VERSION"
+    - docker build --target publish --build-arg NUGET_PROJECT=$NUGET_PROJECT --build-arg NUGET_VERSION=$NUGET_VERSION --build-arg NUGET_TOKEN=$NUGET_TOKEN -f ./src/publish.dockerfile ./src
+    
+.build-project: &build-project
+  stage: build
+  tags: 
+   - docker
+  except:
+   - tags
+  script:
+   - docker build --target build --build-arg NUGET_PROJECT=$NUGET_PROJECT -f ./src/build.dockerfile ./src
+
+
+
 stages:
  - version
  - build
  - test
- - publish
+ - publish-root
+ - publish-deps
+ - info
 
 default:
   before_script:
-    - mkdir build
+    - mkdir -p build
 
+#
+#   generate version according to the git history
+#
 
 get-version:
  stage: version
+ except:
+   - tags
  tags:
-  - docker-compose
- only:
-  - master
-  - develop
-  - /^feature\/.*$/i
+  - docker
  script:
-  - echo "Getting version for branch  $CI_COMMIT_REF_NAME"
-  - ./ci/git-version.sh --url $CI_PROJECT_URL --branch $CI_COMMIT_REF_NAME --sha $CI_COMMIT_SHA --user $CI_GIT_USER --password $CI_GIT_PASSWORD  > ./build/version.json
-  - NUGET_VERSION="$(./ci/git-version.sh --url $CI_PROJECT_URL --branch $CI_COMMIT_REF_NAME --sha $CI_COMMIT_SHA --user $CI_GIT_USER --password $CI_GIT_PASSWORD  -t SemVer)"
+  - echo "Generating version for branch  $CI_COMMIT_REF_NAME"
+  - ./tools/git-version.sh --url $CI_PROJECT_URL --branch $CI_COMMIT_REF_NAME --sha $CI_COMMIT_SHA --user $CI_GIT_USER --password $CI_GIT_TOKEN  > ./build/version.json
+  - NUGET_VERSION="$(jq '.SemVer' ./build/version.json | sed 's/\"//g')"
   - echo "Target version for nuget - $NUGET_VERSION"
  artifacts:
-  name: "app_${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}_${CI_BUILD_REF}"
+  name: "version_${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}_${CI_BUILD_REF}"
   when: on_success
   expire_in: 1 week
   paths:
    - build
 
+#
+#   build projects to ensure source code correctness
+#
+
+build:es-abstractions:
+ stage: build
+ extends:
+  - .build-project
+ variables:
+   NUGET_PROJECT: Aska.Core.EntityStorage.Abstractions
+
+build:es-mariadb:
+ stage: build
+ extends:
+  - .build-project
+ variables:
+   NUGET_PROJECT: Aska.Core.EntityStorage.Ef.MariaDb
+
+build:es-postgres:
+ stage: build
+ extends:
+  - .build-project
+ variables:
+   NUGET_PROJECT: Aska.Core.EntityStorage.Ef.PostgreSql
+
+build:es-sqlite:
+ stage: build
+ extends:
+  - .build-project
+ variables:
+   NUGET_PROJECT: Aska.Core.EntityStorage.Ef.Sqlite
+
+build:network:
+ stage: build
+ extends:
+  - .build-project
+ variables:
+   NUGET_PROJECT: Aska.Core.Network
 
 
-# build_images:
-#  stage: build
-#  tags:
-#   - docker-compose
-#  only:
-#   - master
-#   - develop   
-#  script:
-#   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+#
+#   todo: tests
+#
+
+#
+#   publish nuget packages
+#
+
+publish:es-abstractions:
+  stage: publish-root
+  extends:
+    - .publish-nuget
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Abstractions
+
+publish:es-mariadb:
+  stage: publish-deps
+  extends:
+    - .publish-nuget
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Ef.MariaDb
+
+publish:es-postgres:
+  stage: publish-deps
+  extends:
+    - .publish-nuget
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Ef.PostgreSql
+
+publish:es-sqlite:
+  stage: publish-deps
+  extends:
+    - .publish-nuget
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Ef.Sqlite
+
+publish:network:
+  stage: publish-root
+  extends:
+    - .publish-nuget
+  variables:
+    NUGET_PROJECT: Aska.Core.Network
 
 
-# deploy_prod_app:
-#  stage: deploy
-#  tags:
-#   - docker-compose
-#   - docker-deploy
-#  only:
-#   - master 
-#  script:
-#   - docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+#   set git tag with published version
+#
+
+post-tag:
+  stage: info
+  tags: 
+   - docker
+  except:
+   - tags
+  only:
+    - master
+    - develop
+    - /^feature\/.*$/i 
+  script:
+    - NUGET_VERSION="$(jq '.SemVer' ./build/version.json | sed 's/\"//g')"
+    - TAG_URL="https://git.aska.one/api/v4/projects/${CI_PROJECT_ID}/repository/tags?tag_name=${NUGET_VERSION}&ref=${CI_COMMIT_SHA}&private_token=${CI_GIT_TOKEN}"
+    - echo "Tagging with url - $TAG_URL"
+    - curl -X POST --silent --insecure --show-error --fail $TAG_URL
