@@ -27,7 +27,8 @@ stages:
  - version
  - build
  - test
- - publish
+ - publish-root
+ - publish-deps
  - info
 
 default:
@@ -105,35 +106,35 @@ build:network:
 #
 
 publish:es-abstractions:
-  stage: publish
+  stage: publish-root
   extends:
     - .publish-nuget
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Abstractions
 
 publish:es-mariadb:
-  stage: publish
+  stage: publish-deps
   extends:
     - .publish-nuget
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Ef.MariaDb
 
 publish:es-postgres:
-  stage: publish
+  stage: publish-deps
   extends:
     - .publish-nuget
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Ef.PostgreSql
 
 publish:es-sqlite:
-  stage: publish
+  stage: publish-deps
   extends:
     - .publish-nuget
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Ef.Sqlite
 
 publish:network:
-  stage: publish
+  stage: publish-root
   extends:
     - .publish-nuget
   variables:

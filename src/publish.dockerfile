@@ -44,7 +44,8 @@ ARG NUGET_TOKEN=$NUGET_TOKEN
 WORKDIR /nuget
 COPY --from=pack /nuget .
 
-RUN echo "Publishing NUGET $NUGET_PROJECT:$NUGET_VERSION" \
+RUN echo "Publishing NUGET ${NUGET_PROJECT}.${NUGET_VERSION}.nupkg" \
  && ls -lah
 
-RUN dotnet nuget push $NUGET_PROJECT.$NUGET_VERSION.nupkg -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
+RUN dotnet nuget push ${NUGET_PROJECT}.${NUGET_VERSION}.nupkg --api-key $NUGET_TOKEN --source https://api.nuget.org/v3/index.json \
+ && echo 'Done.'
