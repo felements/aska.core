@@ -4,7 +4,6 @@
   only:
    - master
    - develop
-   - /^feature\/.*$/i 
   except:
    - tags
   script:
@@ -42,7 +41,7 @@ default:
 get-version:
  stage: version
  except:
-   - tags
+  - tags
  tags:
   - docker
  script:
@@ -154,7 +153,6 @@ post-tag:
   only:
     - master
     - develop
-    - /^feature\/.*$/i 
   script:
     - NUGET_VERSION="$(jq '.SemVer' ./build/version.json | sed 's/\"//g')"
     - TAG_URL="https://git.aska.one/api/v4/projects/${CI_PROJECT_ID}/repository/tags?tag_name=${NUGET_VERSION}&ref=${CI_COMMIT_SHA}&private_token=${CI_GIT_TOKEN}"
