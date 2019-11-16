@@ -45,6 +45,3 @@ docker pull $image > /dev/null
 
 docker run --tmpfs /git $image /url $url /b $branch /c $sha /dynamicRepoLocation /git /u $user /p $password \
 | sed -e 's/.*{.*/{/g' -e 's/.*}.*/}/g' -e 's/.*=.*/ /g' | jq ".$type"
-
-#docker run -v $path:/src $image \
-#| sed -e 's/.*{.*/{/g' -e 's/.*}.*/}/g' -e 's/.*=.*/ /g' | jq ".$type"
