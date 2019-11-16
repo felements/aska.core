@@ -39,9 +39,12 @@ RUN ./.ci/pack-or-retry.sh --attempts 60 --delay 60 --output /nuget --project ./
 FROM build-env AS publish
 ARG NUGET_PROJECT=$NUGET_PROJECT
 ARG NUGET_VERSION=$NUGET_VERSION
+ARG NUGET_TOKEN=$NUGET_TOKEN
 
 WORKDIR /nuget
 COPY --from=pack /nuget .
 
 RUN echo "Publishing NUGET $NUGET_PROJECT:$NUGET_VERSION" \
  && ls -lah
+
+RUN dotnet nuget push $NUGET_PROJECT.$NUGET_VERSION.nupkg -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json

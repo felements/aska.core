@@ -35,7 +35,7 @@ n=0
 until [ $n -ge $attempts ] ; do 
    dotnet pack -c Release -o $output $project && break  
    n=$[$n+1]
-   echo "Attempt #$n. Retry in ${delay}s..."
+   echo "Attempt #$n/$attempts. Retry in ${delay}s..."
    sleep ${delay}s
    echo 'Retrying ...' ; done
 
