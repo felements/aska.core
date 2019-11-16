@@ -16,9 +16,12 @@ get-version:
  only:
   - master
   - develop
-  - feature/*
+  - /^feature\/.*$/i
  script:
-  - ./ci/git-version.sh > ./build/version.json
+  - echo "Getting version for branch  $CI_COMMIT_REF_NAME"
+  - ./ci/git-version.sh --url $CI_PROJECT_URL --branch $CI_COMMIT_REF_NAME --sha $CI_COMMIT_SHA --user $CI_GIT_USER --password $CI_GIT_PASSWORD  > ./build/version.json
+  - NUGET_VERSION="$(./ci/git-version.sh --url $CI_PROJECT_URL --branch $CI_COMMIT_REF_NAME --sha $CI_COMMIT_SHA --user $CI_GIT_USER --password $CI_GIT_PASSWORD  -t SemVer)"
+  - echo "Target version for nuget - $NUGET_VERSION"
  artifacts:
   name: "app_${CI_PROJECT_NAME}_${CI_COMMIT_REF_SLUG}_${CI_BUILD_REF}"
   when: on_success
