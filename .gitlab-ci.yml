@@ -10,7 +10,7 @@
   script:
     - NUGET_VERSION="$(jq '.SemVer' ./build/version.json | sed 's/\"//g')"
     - echo "Publishing NUGET $NUGET_PROJECT - $NUGET_VERSION"
-    - docker build --target publish --build-arg NUGET_PROJECT=$NUGET_PROJECT --build-arg NUGET_VERSION=$NUGET_VERSION -f ./src/publish.dockerfile ./src
+    - docker build --target publish --build-arg NUGET_PROJECT=$NUGET_PROJECT --build-arg NUGET_VERSION=$NUGET_VERSION --build-arg NUGET_TOKEN=$NUGET_TOKEN -f ./src/publish.dockerfile ./src
     
 .build-project: &build-project
   stage: build
