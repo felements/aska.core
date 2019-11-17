@@ -2,41 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/Aska.Core.EntityStorage.DemoApp/Aska.Core.EntityStorage.DemoApp.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
+            "label": "run databases",
+            "command": "docker-compose -f docker-compose.db.yml up --build -d",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "reveal":  "silent"
+            },
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/src/Aska.Core.EntityStorage.DemoApp/Aska.Core.EntityStorage.DemoApp.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
+            "label": "stop databases",
+            "command": "docker-compose -f docker-compose.db.yml down",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "reveal":  "silent"
+            },
             "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/src/Aska.Core.EntityStorage.DemoApp/Aska.Core.EntityStorage.DemoApp.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        }
+        },   
     ]
 }
