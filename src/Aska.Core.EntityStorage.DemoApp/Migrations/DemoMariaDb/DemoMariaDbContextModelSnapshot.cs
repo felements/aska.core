@@ -20,10 +20,13 @@ namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoMariaDb
             modelBuilder.Entity("Aska.Core.EntityStorage.DemoApp.MariaDbEntity", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
 
                     b.ToTable("MariaDbEntity");
                 });

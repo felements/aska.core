@@ -1,7 +1,11 @@
 using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.Abstractions.Extensions;
 using Aska.Core.EntityStorage.Ef.PostgreSql;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace Aska.Core.EntityStorage.DemoApp
@@ -14,6 +18,14 @@ namespace Aska.Core.EntityStorage.DemoApp
             : base(connectionStringProvider.GetConnectionString, typeProvider.Discover)
         {
         }
+        
+        public override async  Task InitializeAsync(CancellationToken cancellationToken = default)
+        {
+            var pendingMigrations = await Database.GetPendingMigrationsAsync(cancellationToken);
+            if (pendingMigrations.Any()) throw new Exception("There are some pending migrations. Apply them first before using the context."); 
+                
+            await base.InitializeAsync(cancellationToken);
+        }
     }
     
     public class DesignTimePsqlCtxFactory : IDesignTimeDbContextFactory<DemoPsqlContext>
@@ -24,7 +36,7 @@ namespace Aska.Core.EntityStorage.DemoApp
         
         public DemoPsqlContext CreateDbContext(string[] args)
         {
-            Console.WriteLine(">>> Design time Sqlite context factory");
+            Console.WriteLine(">>> Design time Postgresql context factory");
             Console.WriteLine(string.Join(", ", args));
 
             return new DemoPsqlContext(

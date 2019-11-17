@@ -16,6 +16,7 @@ namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoMariaDb
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_MariaDbEntity", x => x.Id);
                 });
         }
 

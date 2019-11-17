@@ -15,7 +15,13 @@ namespace Aska.Core.EntityStorage.Abstractions.Extensions
                 Cached.GetOrAdd(expression, e => e.Compile());
         }
         
-        public static Func<TEntity, bool> AsFunc<TEntity>(Expression<Func<TEntity, bool>> expr)
+        /// <summary>
+        ///     Get cached compiled expression 
+        /// </summary>
+        /// <remarks>
+        ///     It is safe to use this cache ONLY for statically defined expressions
+        /// </remarks>>
+        public static Func<TEntity, bool> AsFunc<TEntity>(this Expression<Func<TEntity, bool>> expr)
             where TEntity : class
         {
             return Extensions<TEntity>.AsFuncCached(expr);

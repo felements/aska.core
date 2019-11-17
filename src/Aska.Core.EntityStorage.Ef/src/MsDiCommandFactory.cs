@@ -26,32 +26,32 @@ namespace Aska.Core.Storage.Ef
 
         public ICreateCommand<T> GetCreateCommand<T>() where T : class
         {
-            throw new System.NotImplementedException();
+            return _provider.GetRequiredService<ICreateCommand<T>>();
         }
 
         public IDeleteCommand<T> GetDeleteCommand<T>() where T : class
         {
-            throw new System.NotImplementedException();
+            return _provider.GetRequiredService<IDeleteCommand<T>>();
         }
 
         public IUpdateCommand<T> GetUpdateCommand<T>() where T : class
         {
-            throw new System.NotImplementedException();
+            return _provider.GetRequiredService<IUpdateCommand<T>>();
         }
 
         public IBulkCreateCommand<T> GetBulkCreateCommand<T>() where T : class
         {
-            throw new System.NotImplementedException();
+            return _provider.GetRequiredService<IBulkCreateCommand<T>>();
         }
 
         public IBulkDeleteCommand<T> GetBulkDeleteCommand<T>() where T : class
         {
-            throw new System.NotImplementedException();
+            return _provider.GetRequiredService<IBulkDeleteCommand<T>>();
         }
 
         public IBulkUpdateCommand<T> GetBulkUpdateCommand<T>() where T : class
         {
-            throw new System.NotImplementedException();
+            return _provider.GetRequiredService<IBulkUpdateCommand<T>>();
         }
         
         // todo: interceptors for fake-deleted entities

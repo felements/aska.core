@@ -19,7 +19,7 @@ namespace Aska.Core.EntityStorage.DemoApp
                 {
                     services
                         .AddHostedService<StorageDemoService>()
-                        .AddEntityStorage(opt =>
+                        .AddEfEntityStorage(opt =>
                         {
                             opt.UseMariaDb<DemoMariaDbContext>()
                                 .WithEntitiesAutoDiscovery<IMariaDbEntity>("Aska.Core.EntityStorage.Demo", true)
@@ -45,7 +45,8 @@ namespace Aska.Core.EntityStorage.DemoApp
                                     .WithDataFile("./../../../demo.db"));
                         });
                 })
-                .ConfigureLogging(options => 
-                    options.AddConsole());
+                .ConfigureLogging(options => options
+                    .SetMinimumLevel(LogLevel.Debug)
+                    .AddConsole());
     }
 }

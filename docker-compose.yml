@@ -1,17 +1,6 @@
 version: '3.7'
 
 services:
-
-  build-abstractions:
-    build:
-      context: .
-      target: pack
-      # build | test | pack | publish
-    environment:
-      NUGET_PROJECT: Aska.Core.EntityStorage.Abstractions
-      #NUGET_KEY: todo - from CI env
-      #NUGET_VERSION: todo - from CI env
-    restart: on-failure
     
   mariadb:
     image: mariadb:latest
@@ -43,5 +32,3 @@ services:
 volumes:
   mysql:
   postgres:
-
- #todo: compose files for test and publish 
