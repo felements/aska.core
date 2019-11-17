@@ -7,7 +7,7 @@ namespace Aska.Core.Storage.Ef
 {
     public static class ServiceExtensions
     {
-        public static IServiceCollection AddEntityStorage(this IServiceCollection services, Action<EfEntityStorageConfigurationBuilder> configure)
+        public static IServiceCollection AddEfEntityStorage(this IServiceCollection services, Action<EfEntityStorageConfigurationBuilder> configure)
         {
             configure(new EfEntityStorageConfigurationBuilder(services));
 
@@ -18,6 +18,14 @@ namespace Aska.Core.Storage.Ef
             services.AddTransient<ICommandFactory, MsDiCommandFactory>(provider => new MsDiCommandFactory(provider));
             services.AddTransient(typeof(IQuery<,>), typeof(EfDatabaseNoTrackingQuery<,>));
             services.AddTransient(typeof(IQuery<>), typeof(EfDatabaseNoTrackingQuery<>));
+            
+            services.AddTransient(typeof(ICreateCommand<>), typeof(EfDatabaseCreateCommand<>));
+            services.AddTransient(typeof(IUpdateCommand<>), typeof(EfDatabaseUpdateCommand<>));
+            services.AddTransient(typeof(IDeleteCommand<>), typeof(EfDatabaseDeleteCommand<>));
+            
+            services.AddTransient(typeof(IBulkCreateCommand<>), typeof(EfDatabaseCreateCommand<>));
+            services.AddTransient(typeof(IBulkUpdateCommand<>), typeof(EfDatabaseUpdateCommand<>));
+            services.AddTransient(typeof(IBulkDeleteCommand<>), typeof(EfDatabaseDeleteCommand<>));
             
             return services;
         }

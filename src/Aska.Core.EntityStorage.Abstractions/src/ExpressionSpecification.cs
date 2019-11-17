@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Aska.Core.EntityStorage.Abstractions.Extensions;
 
 namespace Aska.Core.EntityStorage.Abstractions
 {
@@ -11,16 +12,10 @@ namespace Aska.Core.EntityStorage.Abstractions
             SpecificationExpression = expression ?? (_ => true) ;
         }
         
-        public Expression<Func<T, bool>> SpecificationExpression { get; }
+        public Expression<Func<T, bool>> SpecificationExpression { get; protected set; }
 
-        //private Func<T, bool> Func => this.AsFunc(SpecificationExpression);
-        //todo
+        private Func<T, bool> Func => SpecificationExpression.AsFunc();
 
-        public bool IsSatisfiedBy(T o)
-        {
-            return true;
-            //todo
-            //return Func(o);
-        }
+        public bool IsSatisfiedBy(T o) => Func(o);
     }
 }

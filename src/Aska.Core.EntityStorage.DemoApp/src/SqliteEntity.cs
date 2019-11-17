@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using Aska.Core.EntityStorage.DemoApp.Specification;
 
 namespace Aska.Core.EntityStorage.DemoApp
 {
-    public interface ISqliteEntity
+    public interface ISqliteEntity : IEntity<Guid>
     {
-        Guid Id { get; }
     }
     
     public class SqliteEntity : ISqliteEntity
@@ -19,6 +20,7 @@ namespace Aska.Core.EntityStorage.DemoApp
             Description = description;
         }
         
+        [Key]
         public Guid Id { get; private set; }
         
         public string Description { get; private  set; }

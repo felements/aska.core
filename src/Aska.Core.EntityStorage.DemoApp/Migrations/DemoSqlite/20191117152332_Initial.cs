@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Aska.Core.EntityStorage.DemoApp.Migrations
+namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoSqlite
 {
     public partial class Initial : Migration
     {

@@ -49,8 +49,7 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb
         {
             foreach (var type in types)
             {
-                builder.Entity(type).ToTable(type.Name)
-                    .HasNoKey();//todo
+                builder.Entity(type).ToTable(type.Name);
             }
         }
     }

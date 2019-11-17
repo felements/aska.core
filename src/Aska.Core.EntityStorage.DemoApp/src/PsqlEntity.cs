@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using Aska.Core.EntityStorage.DemoApp.Specification;
 
 namespace Aska.Core.EntityStorage.DemoApp
 {
-    public interface IPsqlEntity
+    public interface IPsqlEntity : IEntity<Guid>
     {
-        Guid Id { get; }
     }
     
     public class PsqlEntity : IPsqlEntity
@@ -19,6 +20,7 @@ namespace Aska.Core.EntityStorage.DemoApp
             Data = data;
         }
         
+        [Key]
         public Guid Id { get; private set; }
         
         public string Data { get; private  set; }

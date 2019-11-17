@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using Aska.Core.EntityStorage.DemoApp.Specification;
 
 namespace Aska.Core.EntityStorage.DemoApp
 {
-    public interface IMariaDbEntity
+    public interface IMariaDbEntity: IEntity<Guid>
     {
-        Guid Id { get; }
     }
 
     public class MariaDbEntity : IMariaDbEntity
@@ -19,6 +20,7 @@ namespace Aska.Core.EntityStorage.DemoApp
             Name = name;
         }
         
+        [Key]
         public Guid Id { get; private set; }
         
         public string Name { get; private set; }

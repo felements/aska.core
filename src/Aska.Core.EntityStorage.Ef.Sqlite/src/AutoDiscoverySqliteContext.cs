@@ -49,7 +49,7 @@ namespace Aska.Core.Storage.Ef.Sqlite
         {
             foreach (var type in types)
             {
-                builder.Entity(type).ToTable(type.Name).HasNoKey();
+                builder.Entity(type).ToTable(type.Name);
             }
         }
     }

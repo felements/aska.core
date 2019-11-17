@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoPsql
 {
     [DbContext(typeof(DemoPsqlContext))]
-    [Migration("20191109194929_Initial")]
+    [Migration("20191117150933_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

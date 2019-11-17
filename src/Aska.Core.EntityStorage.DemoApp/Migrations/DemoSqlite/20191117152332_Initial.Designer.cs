@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Aska.Core.EntityStorage.DemoApp.Migrations
+namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoSqlite
 {
     [DbContext(typeof(DemoSqliteContext))]
-    [Migration("20191109180147_Initial")]
+    [Migration("20191117152332_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
