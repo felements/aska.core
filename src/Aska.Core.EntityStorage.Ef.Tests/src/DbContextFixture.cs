@@ -1,7 +1,8 @@
 using Aska.Core.EntityStorage.Abstractions;
+using Aska.Core.EntityStorage.Ef.MariaDb.Tests;
 using Aska.Core.Storage.Ef;
 
-namespace Aska.Core.EntityStorage.Ef.MariaDb.Tests
+namespace Aska.Core.EntityStorage.Ef.Tests
 {
     public class DbContextFixture<TContext> where TContext : IEntityStorageWriter, IEntityStorageReader, new()
     {

@@ -1,14 +1,14 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using Aska.Core.EntityStorage.DemoApp.Specification;
 
-namespace Aska.Core.EntityStorage.Ef.MariaDb.Tests
+namespace Aska.Core.EntityStorage.Ef.Tests
 {
-    public interface ITestEntity : IEntity<Guid>
+    public interface ITestEntity<out TKey>
     {
+        TKey Id { get; }
     }
     
-    public class TestDbEntity : ITestEntity
+    public class TestDbEntity : ITestEntity<Guid>
     {
         [Obsolete("Only for model binders. Don't use it in your code.", true)]
         public TestDbEntity()

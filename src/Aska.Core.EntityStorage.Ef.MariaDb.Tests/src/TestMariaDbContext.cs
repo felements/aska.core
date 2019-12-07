@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.Abstractions.Extensions;
+using Aska.Core.EntityStorage.Ef.Tests;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -13,7 +14,7 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb.Tests
     {
         public TestMariaDbContext() : base(
             new TestMariaDbConnectionStringProvider().GetConnectionString,
-            new TestEntityTypeDiscovery<TestMariaDbContext>("Aska.Core.EntityStorage.Ef.MariaDb.Tests").Discover)
+            new TestEntityTypeDiscovery<TestMariaDbContext>("Aska.Core.EntityStorage.Ef").Discover)
         {
         }
 
@@ -57,7 +58,7 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb.Tests
     public class TestEntityTypeDiscovery<TDbContext> : TypeDiscoveryProvider<TDbContext> where TDbContext : IStorageContext
     {
         public TestEntityTypeDiscovery(string assemblyNamePrefix) 
-            : base(new TypeDiscoveryOptions(typeof(ITestEntity), assemblyNamePrefix, false), new TypeDiscoveryProvider())
+            : base(new TypeDiscoveryOptions(typeof(ITestEntity<Guid>), assemblyNamePrefix, false), new TypeDiscoveryProvider())
         {
         }
     }
