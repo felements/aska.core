@@ -47,7 +47,7 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb.Tests
         public TestMariaDbConnectionStringProvider() : base(
             MariaDbConnectionString
                 .Create()
-                .WithServer("localhost")
+                .WithServer(Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost")
                 .WithDatabase("askaone")
                 .WithUser("askaone")
                 .WithPassword("askaone"))
