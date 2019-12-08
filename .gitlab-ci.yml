@@ -20,6 +20,22 @@
   script:
    - docker build --target build --build-arg NUGET_PROJECT=$NUGET_PROJECT -f ./src/build.dockerfile ./src
 
+.test-project: &test-project
+  stage: test
+  tags: 
+   - docker
+  except:
+   - tags
+  variables:
+    CI_DOCKER_TAG: "test.integration.${NUGET_PROJECT}:${CI_COMMIT_SHORT_SHA}"    
+  script:
+   - docker-compose -f docker-compose.db.yml up --build -d
+
+   - DOCKER_TAG=$(echo $CI_DOCKER_TAG | sed -e 's/\(.*\)/\L\1/')
+   - echo "Building image $DOCKER_TAG"
+   - docker build -t $DOCKER_TAG --target test --build-arg NUGET_PROJECT=$NUGET_PROJECT -f ./src/build.dockerfile ./src
+   - docker run --network="askacore-testing" --env DB_HOST=$CI_DB_HOST $DOCKER_TAG
+   #- docker system prune -f
 
 
 stages:
@@ -99,6 +115,22 @@ build:network:
 #
 #   todo: tests
 #
+
+test:es-mariadb:
+  stage: test
+  extends:
+   - .test-project
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Ef.MariaDb.Tests
+    CI_DB_HOST: "mariadb"
+
+test:es-postgres:
+  stage: test
+  extends:
+   - .test-project
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Ef.PostgreSql.Tests
+    CI_DB_HOST: "postgresql"
 
 #
 #   publish nuget packages

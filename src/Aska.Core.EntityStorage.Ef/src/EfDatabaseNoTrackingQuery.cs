@@ -31,7 +31,6 @@ namespace Aska.Core.Storage.Ef
         public Task<TEntity> SingleAsync(CancellationToken ct = default) => _query.SingleAsync(ct);
 
         public Task<TEntity> SingleOrDefaultAsync(CancellationToken ct = default) => _query.SingleOrDefaultAsync(ct);
-        
     
         public IQuery<TEntity, TSpecification> OrderBy<TProperty>(
             Expression<Func<TEntity, TProperty>> expression, 
@@ -46,9 +45,9 @@ namespace Aska.Core.Storage.Ef
         
         public IQuery<TEntity, TSpecification> Where(TSpecification specification)
         {
-            if (!(specification is IExpressionSpecification<TEntity> expressionSpecification))
-                throw new NotSupportedException("Only expression specifications are supported");
-            _query = _query.Where(expressionSpecification.SpecificationExpression);
+            // if (!(specification is IExpressionSpecification<TEntity> expressionSpecification))
+            //     throw new NotSupportedException("Only expression specifications are supported");
+            _query = _query.Where(specification.SpecificationExpression);
             return this;
         }
         
