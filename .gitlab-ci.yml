@@ -27,8 +27,7 @@
   except:
    - tags
   variables:
-    CI_DOCKER_TAG: "test.integration.${NUGET_PROJECT}:${CI_COMMIT_SHORT_SHA}"
-    CI_DB_HOST: "mariadb"
+    CI_DOCKER_TAG: "test.integration.${NUGET_PROJECT}:${CI_COMMIT_SHORT_SHA}"    
   script:
    - docker-compose -f docker-compose.db.yml up --build -d
 
@@ -123,6 +122,15 @@ test:es-mariadb:
    - .test-project
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Ef.MariaDb.Tests
+    CI_DB_HOST: "mariadb"
+
+test:es-postgres:
+  stage: test
+  extends:
+   - .test-project
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Ef.PostgreSql.Tests
+    CI_DB_HOST: "postgresql"
 
 #
 #   publish nuget packages
