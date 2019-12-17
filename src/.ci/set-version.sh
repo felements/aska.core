@@ -22,6 +22,6 @@ find . -name "*.csproj" -print0 | while read -d $'\0' fname; do \
       echo "$fname" && \
       sed -i \
         -e "s/<Version>.*<\/Version>/<Version>$version<\/Version>/g" \
-        -e "s/<ProjectReference.*EntityStorage\.Abstractions.*\/>/<PackageReference Include=\"Aska.Core.EntityStorage.Abstractions\" Version=\"[$version]\" \/>/g" \
+#        -e "s/<ProjectReference.*EntityStorage\.Abstractions.*\/>/<PackageReference Include=\"Aska.Core.EntityStorage.Abstractions\" Version=\"[$version]\" \/>/g" \
         $fname && \
       cat $fname ; done
