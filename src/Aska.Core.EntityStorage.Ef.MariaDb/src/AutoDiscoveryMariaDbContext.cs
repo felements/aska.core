@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.Abstractions.Extensions;
-using Aska.Core.Storage.Ef;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aska.Core.EntityStorage.Ef.MariaDb

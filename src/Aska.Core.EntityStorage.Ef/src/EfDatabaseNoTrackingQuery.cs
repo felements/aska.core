@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Aska.Core.Storage.Ef
+namespace Aska.Core.EntityStorage.Ef
 {
     public class EfDatabaseNoTrackingQuery<TEntity, TSpecification>: IQuery<TEntity, TSpecification>
         where TEntity : class

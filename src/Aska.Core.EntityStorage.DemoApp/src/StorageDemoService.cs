@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.DemoApp.Specification;
+using Aska.Core.EntityStorage.Ef;
 using Aska.Core.Storage.Ef;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;

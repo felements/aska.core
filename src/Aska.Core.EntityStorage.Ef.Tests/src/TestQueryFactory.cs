@@ -1,6 +1,5 @@
 using System;
 using Aska.Core.EntityStorage.Abstractions;
-using Aska.Core.Storage.Ef;
 
 namespace Aska.Core.EntityStorage.Ef.MariaDb.Tests
 {

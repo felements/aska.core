@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 [assembly: InternalsVisibleTo("Aska.Core.EntityStorage.Ef.MariaDb.Tests")]
 [assembly: InternalsVisibleTo("Aska.Core.EntityStorage.Ef.Tests")]
 
-namespace Aska.Core.Storage.Ef
+namespace Aska.Core.EntityStorage.Ef
 {
     public static class ServiceExtensions
     {

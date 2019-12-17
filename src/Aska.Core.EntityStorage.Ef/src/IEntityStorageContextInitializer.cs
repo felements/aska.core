@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Abstractions;
 
-namespace Aska.Core.Storage.Ef
+namespace Aska.Core.EntityStorage.Ef
 {
     public interface IEntityStorageContextInitializer
     {

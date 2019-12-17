@@ -1,6 +1,5 @@
 ﻿using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.Abstractions.Extensions;
-using Aska.Core.Storage.Ef;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -65,7 +64,7 @@ namespace Aska.Core.EntityStorage.Ef.PostgreSql
                             forceLoadAssemblies),
                         pr.GetRequiredService<ITypeDiscoveryProvider>()));
                 
-                Aska.Core.Storage.Ef.ServiceExtensions.RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
+                Ef.ServiceExtensions.RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
                     _services, assemblyNamePrefix, forceLoadAssemblies);
 
                 return this;

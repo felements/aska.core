@@ -2,7 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
-        <RootNamespace>Aska.Core.Storage.Ef</RootNamespace>
     </PropertyGroup>
 
      <PropertyGroup>
@@ -19,7 +18,6 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
     </ItemGroup>
 
