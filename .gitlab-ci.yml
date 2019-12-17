@@ -83,6 +83,13 @@ build:es-abstractions:
  variables:
    NUGET_PROJECT: Aska.Core.EntityStorage.Abstractions
 
+build:es-ef-common:
+ stage: build
+ extends:
+  - .build-project
+ variables:
+   NUGET_PROJECT: Aska.Core.EntityStorage.Ef
+
 build:es-mariadb:
  stage: build
  extends:
@@ -143,22 +150,29 @@ publish:es-abstractions:
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Abstractions
 
+publish:es-ef-common:
+  stage: publish-root
+  extends:
+    - .publish-nuget
+  variables:
+    NUGET_PROJECT: Aska.Core.EntityStorage.Ef
+
 publish:es-mariadb:
-  stage: publish-deps
+  stage: publish-root
   extends:
     - .publish-nuget
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Ef.MariaDb
 
 publish:es-postgres:
-  stage: publish-deps
+  stage: publish-root
   extends:
     - .publish-nuget
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Ef.PostgreSql
 
 publish:es-sqlite:
-  stage: publish-deps
+  stage: publish-root
   extends:
     - .publish-nuget
   variables:
