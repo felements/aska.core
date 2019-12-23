@@ -20,8 +20,8 @@ namespace Aska.Core.EntityStorage.Ef.PostgreSql
         }
 
         public AutoDiscoveryPostgresqlContext(
-            IConnectionStringProvider<AutoDiscoveryPostgresqlContext> connectionStringProvider,
-            ITypeDiscoveryProvider<AutoDiscoveryPostgresqlContext> typeDiscoveryProvider)
+            IConnectionStringProvider connectionStringProvider,
+            ITypeDiscoveryProvider typeDiscoveryProvider)
             : this(connectionStringProvider.GetConnectionString, typeDiscoveryProvider.Discover)
         {
         }

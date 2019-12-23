@@ -22,8 +22,8 @@ namespace Aska.Core.Storage.Ef.Sqlite
         }
 
         public AutoDiscoverySqliteContext(
-            IConnectionStringProvider<AutoDiscoverySqliteContext> connectionStringProvider,
-            ITypeDiscoveryProvider<AutoDiscoverySqliteContext> typeProvider)
+            IConnectionStringProvider connectionStringProvider,
+            ITypeDiscoveryProvider typeProvider)
             : this(connectionStringProvider.GetConnectionString, typeProvider.Discover)
         {
         }

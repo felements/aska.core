@@ -16,7 +16,7 @@ namespace Aska.Core.EntityStorage.Ef
             configure(new EfEntityStorageConfigurationBuilder(services));
 
             services.AddTransient<IEntityStorageContextInitializer, EntityStorageContextInitializer>();
-            services.AddTransient<ITypeDiscoveryProvider, TypeDiscoveryProvider>();
+            services.AddTransient<ITypeDiscoveryParameterizedProvider, TypeDiscoveryProvider>();
 
             services.AddTransient<IQueryFactory, MsDiQueryFactory>(provider => new MsDiQueryFactory(provider));
             services.AddTransient<ICommandFactory, MsDiCommandFactory>(provider => new MsDiCommandFactory(provider));

@@ -63,7 +63,7 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb
                             typeof(TBaseEntity),
                             assemblyNamePrefix,
                             forceLoadAssemblies),
-                        pr.GetRequiredService<ITypeDiscoveryProvider>()));
+                        pr.GetRequiredService<ITypeDiscoveryParameterizedProvider>()));
                 
                 Ef.ServiceExtensions.RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
                     _services, assemblyNamePrefix, forceLoadAssemblies);

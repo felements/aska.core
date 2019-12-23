@@ -63,7 +63,7 @@ namespace Aska.Core.Storage.Ef.Sqlite
                             typeof(TBaseEntity),
                             assemblyNamePrefix,
                             forceLoadAssemblies),
-                        pr.GetRequiredService<ITypeDiscoveryProvider>()));
+                        pr.GetRequiredService<ITypeDiscoveryParameterizedProvider>()));
                 
                 EntityStorage.Ef.ServiceExtensions.RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
                     _services, assemblyNamePrefix, forceLoadAssemblies);

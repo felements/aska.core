@@ -20,8 +20,8 @@ namespace Aska.Core.EntityStorage.Ef.MariaDb
         }
 
         public AutoDiscoveryMariaDbContext(
-            IConnectionStringProvider<AutoDiscoveryMariaDbContext> connectionStringProvider,
-            ITypeDiscoveryProvider<AutoDiscoveryMariaDbContext> typeDiscoveryProvider)
+            IConnectionStringProvider connectionStringProvider,
+            ITypeDiscoveryProvider typeDiscoveryProvider)
             : this(connectionStringProvider.GetConnectionString, typeDiscoveryProvider.Discover)
         {
         }
