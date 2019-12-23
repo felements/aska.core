@@ -11,7 +11,7 @@ namespace Aska.Core.EntityStorage.Abstractions.Extensions
         where TContext : IStorageContext
     {
         private readonly Lazy<Type[]> _discoveredTypes;
-        public TypeDiscoveryProvider(TypeDiscoveryOptions options, ITypeDiscoveryProvider discoveryProvider)
+        public TypeDiscoveryProvider(TypeDiscoveryOptions options, ITypeDiscoveryParameterizedProvider discoveryProvider)
         {
             _discoveredTypes = new Lazy<Type[]>(
                 () => discoveryProvider.Discover(options.BaseType, options.AssemblyNamePrefix, options.ForceLoadAssemblies),
@@ -21,7 +21,7 @@ namespace Aska.Core.EntityStorage.Abstractions.Extensions
         public Type[] Discover() => _discoveredTypes.Value;
     }
 
-    public class TypeDiscoveryProvider : ITypeDiscoveryProvider
+    public class TypeDiscoveryProvider : ITypeDiscoveryParameterizedProvider
     {
         public Type[] Discover(Type baseType, string assemblyPrefix, bool forceLoadAssemblies)
         {
