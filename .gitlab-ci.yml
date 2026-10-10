@@ -110,13 +110,6 @@ build:es-sqlite:
  variables:
    NUGET_PROJECT: Aska.Core.EntityStorage.Ef.Sqlite
 
-build:network:
- stage: build
- extends:
-  - .build-project
- variables:
-   NUGET_PROJECT: Aska.Core.Network
-
 
 #
 #   todo: tests
@@ -176,13 +169,6 @@ publish:es-sqlite:
     - .publish-nuget
   variables:
     NUGET_PROJECT: Aska.Core.EntityStorage.Ef.Sqlite
-
-publish:network:
-  stage: publish
-  extends:
-    - .publish-nuget
-  variables:
-    NUGET_PROJECT: Aska.Core.Network
 
 
 #
