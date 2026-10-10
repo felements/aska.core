@@ -1,28 +1,34 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoPsql
+#nullable disable
+
+namespace Aska.Core.EntityStorage.DemoApp.Migrations.Sqlite
 {
+    /// <inheritdoc />
     public partial class Initial : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PsqlEntity",
+                name: "SqliteEntity",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
-                    Data = table.Column<string>(nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_SqliteEntity", x => x.Id);
                 });
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PsqlEntity");
+                name: "SqliteEntity");
         }
     }
 }

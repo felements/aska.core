@@ -1,25 +1,27 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "run databases",
-            "command": "docker-compose -f docker-compose.db.yml up --build -d",
-            "type": "shell",
-            "group": "build",
-            "presentation": {
-                "reveal":  "silent"
-            },
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "stop databases",
-            "command": "docker-compose -f docker-compose.db.yml down",
-            "type": "shell",
-            "group": "build",
-            "presentation": {
-                "reveal":  "silent"
-            },
-            "problemMatcher": "$msCompile"
-        },   
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "command": "dotnet",
+      "args": ["build", "${workspaceFolder}/src/aska.core.slnx"],
+      "type": "process",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "run databases",
+      "command": "docker compose up -d --wait",
+      "type": "shell",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    },
+    {
+      "label": "stop databases",
+      "command": "docker compose down",
+      "type": "shell",
+      "presentation": { "reveal": "silent" },
+      "problemMatcher": []
+    }
+  ]
 }

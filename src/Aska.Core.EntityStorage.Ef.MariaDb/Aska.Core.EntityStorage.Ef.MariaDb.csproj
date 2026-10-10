@@ -1,27 +1,17 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Title>CQRS entity storage - EF + MariaDb implementation</Title>
+    <Description>MariaDB provider for Aska.Core.EntityStorage, with entity auto-discovery.</Description>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <PackageId>Aska.Core.EntityStorage.Ef.MariaDb</PackageId>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Title>CQRS entity storage - EF + MariaDb implementation</Title>
-        <Description>[TBD]</Description>
-        <Version>0.1.0</Version>
-        <Authors>f-elements</Authors>
-        <Company>Aska One Inc.</Company>
-        <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
-    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microting.EntityFrameworkCore.MySql" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
-      <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0-rc1.final" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj" />
+  </ItemGroup>
 
 </Project>

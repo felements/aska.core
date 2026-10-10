@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aska.Core.EntityStorage.Ef.Sqlite\Aska.Core.EntityStorage.Ef.Sqlite.csproj" />
+    <ProjectReference Include="..\Aska.Core.EntityStorage.Ef.Tests\Aska.Core.EntityStorage.Ef.Tests.csproj" />
+  </ItemGroup>
+
+</Project>

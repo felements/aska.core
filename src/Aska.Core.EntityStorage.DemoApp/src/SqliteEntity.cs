@@ -1,28 +1,23 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using Aska.Core.EntityStorage.DemoApp.Specification;
 
-namespace Aska.Core.EntityStorage.DemoApp
+namespace Aska.Core.EntityStorage.DemoApp;
+
+public interface ISqliteEntity : IEntity<Guid>;
+
+public class SqliteEntity : ISqliteEntity
 {
-    public interface ISqliteEntity : IEntity<Guid>
+    // Used by EF Core when materializing entities.
+    private SqliteEntity()
     {
     }
-    
-    public class SqliteEntity : ISqliteEntity
+
+    public SqliteEntity(string description)
     {
-        protected SqliteEntity()
-        {
-        }
-        
-        public SqliteEntity(string description)
-        {
-            Id = Guid.NewGuid();
-            Description = description;
-        }
-        
-        [Key]
-        public Guid Id { get; private set; }
-        
-        public string Description { get; private  set; }
+        Id = Guid.CreateVersion7();
+        Description = description;
     }
+
+    public Guid Id { get; private set; }
+
+    public string Description { get; private set; } = string.Empty;
 }

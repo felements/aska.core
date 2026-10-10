@@ -6,31 +6,33 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoMariaDb
+#nullable disable
+
+namespace Aska.Core.EntityStorage.DemoApp.Migrations.Sqlite
 {
-    [DbContext(typeof(DemoMariaDbContext))]
-    [Migration("20191117145254_Initial")]
+    [DbContext(typeof(DemoSqliteContext))]
+    [Migration("20261010184102_Initial")]
     partial class Initial
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.12");
 
-            modelBuilder.Entity("Aska.Core.EntityStorage.DemoApp.MariaDbEntity", b =>
+            modelBuilder.Entity("Aska.Core.EntityStorage.DemoApp.SqliteEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MariaDbEntity");
+                    b.ToTable("SqliteEntity", (string)null);
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoSqlite
+#nullable disable
+
+namespace Aska.Core.EntityStorage.DemoApp.Migrations.Sqlite
 {
     [DbContext(typeof(DemoSqliteContext))]
     partial class DemoSqliteContextModelSnapshot : ModelSnapshot
@@ -13,18 +15,21 @@ namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoSqlite
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "10.0.12");
 
             modelBuilder.Entity("Aska.Core.EntityStorage.DemoApp.SqliteEntity", b =>
                 {
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.ToTable("SqliteEntity");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SqliteEntity", (string)null);
                 });
 #pragma warning restore 612, 618
         }

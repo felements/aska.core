@@ -1,67 +1,58 @@
-using System;
-using System.Runtime.CompilerServices;
 using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.Abstractions.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: InternalsVisibleTo("Aska.Core.EntityStorage.Ef.MariaDb.Tests")]
-[assembly: InternalsVisibleTo("Aska.Core.EntityStorage.Ef.Tests")]
+namespace Aska.Core.EntityStorage.Ef;
 
-namespace Aska.Core.EntityStorage.Ef
+public static class ServiceExtensions
 {
-    public static class ServiceExtensions
+    public static IServiceCollection AddEfEntityStorage(this IServiceCollection services, Action<EfEntityStorageConfigurationBuilder> configure)
     {
-        public static IServiceCollection AddEfEntityStorage(this IServiceCollection services, Action<EfEntityStorageConfigurationBuilder> configure)
-        {
-            configure(new EfEntityStorageConfigurationBuilder(services));
+        configure(new EfEntityStorageConfigurationBuilder(services));
 
-            services.AddTransient<IEntityStorageContextInitializer, EntityStorageContextInitializer>();
-            services.AddTransient<ITypeDiscoveryParameterizedProvider, TypeDiscoveryProvider>();
+        services.AddTransient<IEntityStorageContextInitializer, EntityStorageContextInitializer>();
+        services.AddTransient<ITypeDiscoveryParameterizedProvider, TypeDiscoveryProvider>();
 
-            services.AddTransient<IQueryFactory, MsDiQueryFactory>(provider => new MsDiQueryFactory(provider));
-            services.AddTransient<ICommandFactory, MsDiCommandFactory>(provider => new MsDiCommandFactory(provider));
-            services.AddTransient(typeof(IQuery<,>), typeof(EfDatabaseNoTrackingQuery<,>));
-            services.AddTransient(typeof(IQuery<>), typeof(EfDatabaseNoTrackingQuery<>));
-            
-            services.AddTransient(typeof(ICreateCommand<>), typeof(EfDatabaseCreateCommand<>));
-            services.AddTransient(typeof(IUpdateCommand<>), typeof(EfDatabaseUpdateCommand<>));
-            services.AddTransient(typeof(IDeleteCommand<>), typeof(EfDatabaseDeleteCommand<>));
-            
-            services.AddTransient(typeof(IBulkCreateCommand<>), typeof(EfDatabaseCreateCommand<>));
-            services.AddTransient(typeof(IBulkUpdateCommand<>), typeof(EfDatabaseUpdateCommand<>));
-            services.AddTransient(typeof(IBulkDeleteCommand<>), typeof(EfDatabaseDeleteCommand<>));
-            
-            return services;
-        }
-        
-        public static void RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
-            IServiceCollection services,
-            string assemblyNamePrefix,
-            bool forceLoadAssemblies)
-        {
-            // register entities
-            foreach (var entityType in new TypeDiscoveryProvider().Discover(typeof(TBaseEntity), assemblyNamePrefix,
-                forceLoadAssemblies))
-            {
-                var readerInterfaceType = typeof(IEntityStorageReader<>).MakeGenericType(entityType);
-                var writerInterfaceType = typeof(IEntityStorageWriter<>).MakeGenericType(entityType);
+        services.AddTransient<IQueryFactory, MsDiQueryFactory>();
+        services.AddTransient<ICommandFactory, MsDiCommandFactory>();
+        services.AddTransient(typeof(IQuery<,>), typeof(EfDatabaseNoTrackingQuery<,>));
+        services.AddTransient(typeof(IQuery<>), typeof(EfDatabaseNoTrackingQuery<>));
 
-                var readerProxyType = typeof(EntityStorageReaderContextProxy<,>).MakeGenericType(entityType, typeof(TContext));
-                var writerProxyType = typeof(EntityStorageWriterContextProxy<,>).MakeGenericType(entityType, typeof(TContext));
+        services.AddTransient(typeof(ICreateCommand<>), typeof(EfDatabaseCreateCommand<>));
+        services.AddTransient(typeof(IUpdateCommand<>), typeof(EfDatabaseUpdateCommand<>));
+        services.AddTransient(typeof(IDeleteCommand<>), typeof(EfDatabaseDeleteCommand<>));
 
-                services.AddTransient(readerInterfaceType, readerProxyType);
-                services.AddTransient(writerInterfaceType, writerProxyType);
-            }
-        }
+        services.AddTransient(typeof(IBulkCreateCommand<>), typeof(EfDatabaseCreateCommand<>));
+        services.AddTransient(typeof(IBulkUpdateCommand<>), typeof(EfDatabaseUpdateCommand<>));
+        services.AddTransient(typeof(IBulkDeleteCommand<>), typeof(EfDatabaseDeleteCommand<>));
+
+        return services;
     }
 
-    public class EfEntityStorageConfigurationBuilder
+    /// <summary>
+    /// Registers an <see cref="IEntityStorageReader{T}"/> and <see cref="IEntityStorageWriter{T}"/> proxy, bound to
+    /// <typeparamref name="TContext"/>, for every exported type implementing <typeparamref name="TBaseEntity"/>
+    /// in the assemblies whose name starts with <paramref name="assemblyNamePrefix"/>.
+    /// </summary>
+    public static void RegisterEntityStorageContextProxies<TBaseEntity, TContext>(
+        IServiceCollection services,
+        string assemblyNamePrefix,
+        bool forceLoadAssemblies)
     {
-        public readonly IServiceCollection Services;
-
-        public EfEntityStorageConfigurationBuilder(IServiceCollection services)
+        var entityTypes = new TypeDiscoveryProvider().Discover(typeof(TBaseEntity), assemblyNamePrefix, forceLoadAssemblies);
+        foreach (var entityType in entityTypes)
         {
-            Services = services;
+            services.AddTransient(
+                typeof(IEntityStorageReader<>).MakeGenericType(entityType),
+                typeof(EntityStorageReaderContextProxy<,>).MakeGenericType(entityType, typeof(TContext)));
+            services.AddTransient(
+                typeof(IEntityStorageWriter<>).MakeGenericType(entityType),
+                typeof(EntityStorageWriterContextProxy<,>).MakeGenericType(entityType, typeof(TContext)));
         }
     }
+}
+
+public class EfEntityStorageConfigurationBuilder(IServiceCollection services)
+{
+    public IServiceCollection Services { get; } = services;
 }

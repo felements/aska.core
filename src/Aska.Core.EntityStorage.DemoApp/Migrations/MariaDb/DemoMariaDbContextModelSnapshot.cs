@@ -3,9 +3,12 @@ using System;
 using Aska.Core.EntityStorage.DemoApp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoMariaDb
+#nullable disable
+
+namespace Aska.Core.EntityStorage.DemoApp.Migrations.MariaDb
 {
     [DbContext(typeof(DemoMariaDbContext))]
     partial class DemoMariaDbContextModelSnapshot : ModelSnapshot
@@ -14,8 +17,10 @@ namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoMariaDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0")
+                .HasAnnotation("ProductVersion", "10.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("Aska.Core.EntityStorage.DemoApp.MariaDbEntity", b =>
                 {
@@ -24,11 +29,12 @@ namespace Aska.Core.EntityStorage.DemoApp.Migrations.DemoMariaDb
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("MariaDbEntity");
+                    b.ToTable("MariaDbEntity", (string)null);
                 });
 #pragma warning restore 612, 618
         }

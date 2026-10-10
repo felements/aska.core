@@ -1,46 +1,38 @@
-namespace Aska.Core.EntityStorage.Ef.PostgreSql
+using Npgsql;
+
+namespace Aska.Core.EntityStorage.Ef.PostgreSql;
+
+public class PsqlConnectionString
 {
-    public class PsqlConnectionString
+    private readonly NpgsqlConnectionStringBuilder _builder = new();
+
+    public PsqlConnectionString WithServer(string server)
     {
-        private string _server;
-        private string _database;
-        private string _user;
-        private string _password;
-        
-        public PsqlConnectionString WithServer(string server)
-        {
-            _server = server;
-            return this;
-        }
-
-        public PsqlConnectionString WithDatabase(string database)
-        {
-            _database = database;
-            return this;
-        }
-
-        public PsqlConnectionString WithUser(string user)
-        {
-            _user = user;
-            return this;
-        }
-
-        public PsqlConnectionString WithPassword(string password)
-        {
-            _password = password;
-            return this;
-        }
-
-        public override string ToString()
-        {
-            return $"Host={_server};Database={_database};Username={_user};Password={_password}";
-        }
-
-        public static implicit operator string(PsqlConnectionString connStr)
-        {
-            return connStr.ToString();
-        }
-        
-        public static PsqlConnectionString Create() => new PsqlConnectionString();
+        _builder.Host = server;
+        return this;
     }
+
+    public PsqlConnectionString WithDatabase(string database)
+    {
+        _builder.Database = database;
+        return this;
+    }
+
+    public PsqlConnectionString WithUser(string user)
+    {
+        _builder.Username = user;
+        return this;
+    }
+
+    public PsqlConnectionString WithPassword(string password)
+    {
+        _builder.Password = password;
+        return this;
+    }
+
+    public override string ToString() => _builder.ConnectionString;
+
+    public static implicit operator string(PsqlConnectionString connectionString) => connectionString.ToString();
+
+    public static PsqlConnectionString Create() => new();
 }

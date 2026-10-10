@@ -1,50 +1,38 @@
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.Abstractions.Extensions;
-using Aska.Core.Storage.Ef.Sqlite;
+using Aska.Core.EntityStorage.Ef.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Aska.Core.EntityStorage.DemoApp
-{
-    public class DemoSqliteContext : AutoDiscoverySqliteContext
-    {
-        public DemoSqliteContext(
-            IConnectionStringProvider<DemoSqliteContext> connectionStringProvider,
-            ITypeDiscoveryProvider<DemoSqliteContext> typeProvider) 
-            : base(connectionStringProvider.GetConnectionString, typeProvider.Discover)
-        {
-        }
-        
-        public override async  Task InitializeAsync(CancellationToken cancellationToken = default)
-        {
-            var pendingMigrations = await Database.GetPendingMigrationsAsync(cancellationToken);
-            if (pendingMigrations.Any()) throw new Exception("There are some pending migrations. Apply them first before using the context."); 
-                
-            await base.InitializeAsync(cancellationToken);
-        }
-    }
-    
-    public class DesignTimeSqliteCtxFactory : IDesignTimeDbContextFactory<DemoSqliteContext>
-    {
-        public DesignTimeSqliteCtxFactory()
-        {
-        }
-        
-        public DemoSqliteContext CreateDbContext(string[] args)
-        {
-            Console.WriteLine(">>> Design time Sqlite context factory");
-            Console.WriteLine(string.Join(", ", args));
+namespace Aska.Core.EntityStorage.DemoApp;
 
-            return new DemoSqliteContext(
-                new StaticConnectionStringProvider<DemoSqliteContext>(
-                    SqliteConnectionString.Create().WithDataFile("demo.db")),
-                new TypeDiscoveryProvider<DemoSqliteContext>(
-                    new TypeDiscoveryOptions(typeof(ISqliteEntity), "Aska", true),
-                    new TypeDiscoveryProvider()));
-        }
+public class DemoSqliteContext : AutoDiscoverySqliteContext
+{
+    public DemoSqliteContext(
+        IConnectionStringProvider<DemoSqliteContext> connectionStringProvider,
+        ITypeDiscoveryProvider<DemoSqliteContext> typeDiscoveryProvider)
+        : base(connectionStringProvider.GetConnectionString, typeDiscoveryProvider.Discover)
+    {
     }
+
+    /// <summary>
+    /// Applies pending migrations when the application starts.
+    /// </summary>
+    public override async Task InitializeAsync(CancellationToken cancellationToken = default)
+    {
+        await Database.MigrateAsync(cancellationToken);
+        await base.InitializeAsync(cancellationToken);
+    }
+}
+
+/// <summary>
+/// Creates the context for <c>dotnet ef</c> commands.
+/// </summary>
+public class DemoSqliteContextDesignTimeFactory : IDesignTimeDbContextFactory<DemoSqliteContext>
+{
+    public DemoSqliteContext CreateDbContext(string[] args) => new(
+        new StaticConnectionStringProvider<DemoSqliteContext>(DemoSettings.SqliteConnection),
+        new TypeDiscoveryProvider<DemoSqliteContext>(
+            new TypeDiscoveryOptions(typeof(ISqliteEntity), DemoSettings.EntitiesAssemblyPrefix, forceLoadAssemblies: false),
+            new TypeDiscoveryProvider()));
 }

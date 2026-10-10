@@ -1,46 +1,38 @@
-namespace Aska.Core.EntityStorage.Ef.MariaDb
+using MySqlConnector;
+
+namespace Aska.Core.EntityStorage.Ef.MariaDb;
+
+public class MariaDbConnectionString
 {
-    public class MariaDbConnectionString
+    private readonly MySqlConnectionStringBuilder _builder = new();
+
+    public MariaDbConnectionString WithServer(string server)
     {
-        private string _server;
-        private string _database;
-        private string _user;
-        private string _password;
-        
-        public MariaDbConnectionString WithServer(string server)
-        {
-            _server = server;
-            return this;
-        }
-
-        public MariaDbConnectionString WithDatabase(string database)
-        {
-            _database = database;
-            return this;
-        }
-
-        public MariaDbConnectionString WithUser(string user)
-        {
-            _user = user;
-            return this;
-        }
-
-        public MariaDbConnectionString WithPassword(string password)
-        {
-            _password = password;
-            return this;
-        }
-        
-        public override string ToString()
-        {
-            return $"server={_server};database={_database};user id={_user};password={_password}";
-        }
-
-        public static implicit operator string(MariaDbConnectionString connStr)
-        {
-            return connStr.ToString();
-        }
-        
-        public static MariaDbConnectionString Create() => new MariaDbConnectionString();
+        _builder.Server = server;
+        return this;
     }
+
+    public MariaDbConnectionString WithDatabase(string database)
+    {
+        _builder.Database = database;
+        return this;
+    }
+
+    public MariaDbConnectionString WithUser(string user)
+    {
+        _builder.UserID = user;
+        return this;
+    }
+
+    public MariaDbConnectionString WithPassword(string password)
+    {
+        _builder.Password = password;
+        return this;
+    }
+
+    public override string ToString() => _builder.ConnectionString;
+
+    public static implicit operator string(MariaDbConnectionString connectionString) => connectionString.ToString();
+
+    public static MariaDbConnectionString Create() => new();
 }

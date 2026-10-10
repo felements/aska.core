@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/libraries/">
+    <Project Path="Aska.Core.EntityStorage.Abstractions/Aska.Core.EntityStorage.Abstractions.csproj" />
+    <Project Path="Aska.Core.EntityStorage.Ef/Aska.Core.EntityStorage.Ef.csproj" />
+    <Project Path="Aska.Core.EntityStorage.Ef.MariaDb/Aska.Core.EntityStorage.Ef.MariaDb.csproj" />
+    <Project Path="Aska.Core.EntityStorage.Ef.PostgreSql/Aska.Core.EntityStorage.Ef.PostgreSql.csproj" />
+    <Project Path="Aska.Core.EntityStorage.Ef.Sqlite/Aska.Core.EntityStorage.Ef.Sqlite.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="Aska.Core.EntityStorage.Ef.Tests/Aska.Core.EntityStorage.Ef.Tests.csproj" />
+    <Project Path="Aska.Core.EntityStorage.Ef.MariaDb.Tests/Aska.Core.EntityStorage.Ef.MariaDb.Tests.csproj" />
+    <Project Path="Aska.Core.EntityStorage.Ef.PostgreSql.Tests/Aska.Core.EntityStorage.Ef.PostgreSql.Tests.csproj" />
+    <Project Path="Aska.Core.EntityStorage.Ef.Sqlite.Tests/Aska.Core.EntityStorage.Ef.Sqlite.Tests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="Aska.Core.EntityStorage.DemoApp/Aska.Core.EntityStorage.DemoApp.csproj" />
+  </Folder>
+</Solution>

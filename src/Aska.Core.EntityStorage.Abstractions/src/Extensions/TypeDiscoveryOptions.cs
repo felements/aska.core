@@ -1,50 +1,42 @@
-﻿using System;
+namespace Aska.Core.EntityStorage.Abstractions.Extensions;
 
-namespace Aska.Core.EntityStorage.Abstractions.Extensions
+public class TypeDiscoveryOptions
 {
-    public class TypeDiscoveryOptions
+    public TypeDiscoveryOptions(Type baseType, string assemblyNamePrefix, bool forceLoadAssemblies)
     {
-        protected TypeDiscoveryOptions()
+        BaseType = baseType;
+        AssemblyNamePrefix = assemblyNamePrefix;
+        ForceLoadAssemblies = forceLoadAssemblies;
+    }
+    
+    public Type BaseType { get; private set; }
+    
+    public string AssemblyNamePrefix { get; private set; }
+    
+    public bool ForceLoadAssemblies { get; private set; }
+
+
+    public static Builder<T> ForBaseEntity<T>() where T : class => new Builder<T>();
+    
+    public class Builder<T> where T: class
+    {
+        private readonly TypeDiscoveryOptions _options = new(typeof(T), string.Empty, false);
+
+        public Builder<T> ForAssemblies(string assemblyPrefix)
         {
+            _options.AssemblyNamePrefix = assemblyPrefix;
+            return this;
         }
-        
-        public TypeDiscoveryOptions(Type baseType, string assemblyNamePrefix, bool forceLoadAssemblies)
+
+        public Builder<T> ForceLoadAssemblies()
         {
-            BaseType = baseType;
-            AssemblyNamePrefix = assemblyNamePrefix;
-            ForceLoadAssemblies = forceLoadAssemblies;
+            _options.ForceLoadAssemblies = true;
+            return this;
         }
-        
-        public Type BaseType { get; private set; }
-        
-        public string AssemblyNamePrefix { get; private set; }
-        
-        public bool ForceLoadAssemblies { get; private set; }
-        
-        
-        public static Builder<T> ForBaseEntity<T>() where T : class => new Builder<T>();
-        
-        public class Builder<T> where T: class
+
+        public TypeDiscoveryOptions Create()
         {
-            private readonly TypeDiscoveryOptions _options 
-                = new TypeDiscoveryOptions(typeof(T), string.Empty, false);
-
-            public Builder<T> ForAssemblies(string assemblyPrefix)
-            {
-                _options.AssemblyNamePrefix = assemblyPrefix;
-                return this;
-            }
-
-            public Builder<T> ForceLoadAssemblies()
-            {
-                _options.ForceLoadAssemblies = true;
-                return this;
-            }
-
-            public TypeDiscoveryOptions Create()
-            {
-                return _options;
-            }
+            return _options;
         }
     }
 }

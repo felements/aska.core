@@ -1,8 +1,7 @@
-﻿namespace Aska.Core.EntityStorage.Abstractions
+﻿namespace Aska.Core.EntityStorage.Abstractions;
+
+public enum SortOrder
 {
-    public enum SortOrder
-    {
-        Ascending,
-        Descending
-    }
+    Ascending,
+    Descending
 }

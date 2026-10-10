@@ -1,28 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Title>CQRS entity storage - EF common types</Title>
+    <Description>Entity Framework Core implementation of Aska.Core.EntityStorage: no-tracking queries, create, update and delete commands, and dependency injection registration.</Description>
+  </PropertyGroup>
 
-     <PropertyGroup>
-        <PackageId>Aska.Core.EntityStorage.Ef</PackageId>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Title>CQRS entity storage - EF common types</Title>
-        <Description>[TBD]</Description>
-        <Version>0.1.0</Version>
-        <Authors>f-elements</Authors>
-        <Company>Aska One Inc.</Company>
-        <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
-    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="3.1.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aska.Core.EntityStorage.Abstractions\Aska.Core.EntityStorage.Abstractions.csproj" />
+  </ItemGroup>
 
 </Project>

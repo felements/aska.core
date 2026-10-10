@@ -1,7 +1,6 @@
-namespace Aska.Core.EntityStorage.DemoApp.Specification
+namespace Aska.Core.EntityStorage.DemoApp.Specification;
+
+public interface IEntity<out TKey>
 {
-    public interface IEntity<out TKey>
-    {
-        TKey Id { get; }
-    }
+    TKey Id { get; }
 }
