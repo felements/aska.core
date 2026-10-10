@@ -1,96 +1,50 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Aska.Core.EntityStorage.Abstractions;
 using Aska.Core.EntityStorage.DemoApp.Specification;
 using Aska.Core.EntityStorage.Ef;
-using Aska.Core.Storage.Ef;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Aska.Core.EntityStorage.DemoApp
+namespace Aska.Core.EntityStorage.DemoApp;
+
+/// <summary>
+/// Runs create, query and delete operations against every configured database, then stops the application.
+/// </summary>
+internal sealed class StorageDemoService(
+    IEntityStorageContextInitializer contextInitializer,
+    IQueryFactory queryFactory,
+    ICommandFactory commandFactory,
+    IHostApplicationLifetime lifetime,
+    ILogger<StorageDemoService> logger) : BackgroundService
 {
-    internal sealed class StorageDemoService: IHostedService
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        private readonly IEntityStorageContextInitializer _contextInitializer;
-        private readonly IQueryFactory _queryFactory;
-        private readonly ICommandFactory _commandFactory;
-        private readonly IHostApplicationLifetime _lifetime;
-        private readonly ILogger<StorageDemoService> _logger;
+        logger.LogInformation("Initializing contexts...");
+        await contextInitializer.InitializeAsync(stoppingToken);
 
-        private CancellationTokenSource _workloadCancellation;
+        await EntityCrudAsync(new MariaDbEntity("mariadb"), stoppingToken);
+        await EntityCrudAsync(new PsqlEntity("postgresql"), stoppingToken);
+        await EntityCrudAsync(new SqliteEntity("sqlite"), stoppingToken);
 
-        public StorageDemoService(
-            IEntityStorageContextInitializer contextInitializer, 
-            IQueryFactory queryFactory,
-            ICommandFactory commandFactory,
-            IHostApplicationLifetime lifetime,//todo: remove workaround
-            ILogger<StorageDemoService> logger)
-        {
-            _contextInitializer = contextInitializer;
-            _queryFactory = queryFactory ?? throw new ArgumentNullException(nameof(queryFactory));
-            _commandFactory = commandFactory ?? throw new ArgumentNullException(nameof(commandFactory));
-            _lifetime = lifetime;
-            _logger = logger;
-        }
+        logger.LogInformation("Demo finished.");
+        lifetime.StopApplication();
+    }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogDebug("Initializing contexts...");
-            await _contextInitializer.InitializeAsync(cancellationToken);
-            
-#pragma warning disable 4014
-            _logger.LogDebug("Starting workload in background...");
-            
-            _workloadCancellation = new CancellationTokenSource();
-            Task.Factory.StartNew(() => Workload(_workloadCancellation.Token), _workloadCancellation.Token);
-#pragma warning restore 4014
-            
-            _logger.LogInformation("Storage service started.");
-        }
+    private async Task EntityCrudAsync<T>(T entity, CancellationToken ct) where T : class, IEntity<Guid>
+    {
+        var entityName = typeof(T).Name;
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _logger.LogDebug("Stopping workload...");
-            _workloadCancellation?.Cancel();
-            
-            _logger.LogInformation("Storage service stopped.");
-            return Task.CompletedTask;
-        }
+        await commandFactory.GetCreateCommand<T>().ExecuteAsync(entity, ct);
+        logger.LogInformation("{Entity}: created {Id}", entityName, entity.Id);
 
-        private async Task Workload(CancellationToken ct = default)
-        {
-            await EntityCrud(_queryFactory, _commandFactory, () => new MariaDbEntity("mariaDb"), _logger, ct);
-            await EntityCrud(_queryFactory, _commandFactory, () => new SqliteEntity("sqlite"), _logger, ct);
-            await EntityCrud(_queryFactory, _commandFactory, () => new PsqlEntity("psql"), _logger, ct);
-            
-            _lifetime.StopApplication();
-        }
+        var count = await queryFactory.GetQuery<T>().CountAsync(ct);
+        logger.LogInformation("{Entity}: {Count} rows stored", entityName, count);
 
-        private static async Task EntityCrud<T>(
-            IQueryFactory queryFactory,
-            ICommandFactory commandFactory,
-            Func<T> entityFactory,
-            ILogger logger,
-            CancellationToken ct = default) where T : class, IEntity<Guid>
-        {
-            logger.LogDebug($"{typeof(T).Name} - CRUD operations");
+        var loaded = await queryFactory.GetQuery<T, ByIdExpressionSpecification<T, Guid>>()
+            .Where(new ByIdExpressionSpecification<T, Guid>(entity.Id))
+            .SingleAsync(ct);
+        logger.LogInformation("{Entity}: loaded {Id} by id", entityName, loaded.Id);
 
-            var entity = entityFactory();
-            
-            logger.LogDebug("Creating entity...");
-            var succeed = await commandFactory.GetCreateCommand<T>().ExecuteAsync(entity, ct);
-
-            logger.LogDebug("Querying all entities...");
-            var all = await queryFactory.GetQuery<T>().AllAsync(ct);
-
-            logger.LogDebug("Querying entity by id ...");
-            var loadedById = await queryFactory.GetQuery<T, ByIdExpressionSpecification<T, Guid>>()
-                .Where(new ByIdExpressionSpecification<T, Guid>(entity.Id))
-                .SingleAsync(ct);
-
-            logger.LogDebug("Deleting entity...");
-            await commandFactory.GetDeleteCommand<T>().ExecuteAsync(entity, ct);
-        }
+        await commandFactory.GetDeleteCommand<T>().ExecuteAsync(entity, ct);
+        logger.LogInformation("{Entity}: deleted {Id}", entityName, entity.Id);
     }
 }

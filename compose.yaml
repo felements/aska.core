@@ -1,0 +1,29 @@
+# Databases for the demo app. Start them with `docker compose up -d --wait`.
+# Tests do not need these: they start their own containers with Testcontainers.
+services:
+  mariadb:
+    image: mariadb:11.8
+    environment:
+      MARIADB_ROOT_PASSWORD: askaone
+      MARIADB_DATABASE: askaone
+      MARIADB_USER: askaone
+      MARIADB_PASSWORD: askaone
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      retries: 30
+
+  postgresql:
+    image: postgres:18
+    environment:
+      POSTGRES_DB: askaone
+      POSTGRES_USER: askaone
+      POSTGRES_PASSWORD: askaone
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "askaone", "-d", "askaone"]
+      interval: 2s
+      retries: 30

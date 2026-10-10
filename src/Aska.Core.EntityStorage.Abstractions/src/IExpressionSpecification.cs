@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
-namespace Aska.Core.EntityStorage.Abstractions
+namespace Aska.Core.EntityStorage.Abstractions;
+
+public interface IExpressionSpecification<T> : ISpecification<T>
+    where T : class
 {
-    public interface IExpressionSpecification<T> : ISpecification<T>
-        where T : class
-    {
-        Expression<Func<T, bool>> SpecificationExpression { get; }
-    }
+    Expression<Func<T, bool>> SpecificationExpression { get; }
 }

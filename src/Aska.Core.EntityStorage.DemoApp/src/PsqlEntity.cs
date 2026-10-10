@@ -1,28 +1,23 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using Aska.Core.EntityStorage.DemoApp.Specification;
 
-namespace Aska.Core.EntityStorage.DemoApp
+namespace Aska.Core.EntityStorage.DemoApp;
+
+public interface IPsqlEntity : IEntity<Guid>;
+
+public class PsqlEntity : IPsqlEntity
 {
-    public interface IPsqlEntity : IEntity<Guid>
+    // Used by EF Core when materializing entities.
+    private PsqlEntity()
     {
     }
-    
-    public class PsqlEntity : IPsqlEntity
+
+    public PsqlEntity(string data)
     {
-        protected PsqlEntity()
-        {
-        }
-        
-        public PsqlEntity(string data)
-        {
-            Id = Guid.NewGuid();
-            Data = data;
-        }
-        
-        [Key]
-        public Guid Id { get; private set; }
-        
-        public string Data { get; private  set; }
+        Id = Guid.CreateVersion7();
+        Data = data;
     }
+
+    public Guid Id { get; private set; }
+
+    public string Data { get; private set; } = string.Empty;
 }

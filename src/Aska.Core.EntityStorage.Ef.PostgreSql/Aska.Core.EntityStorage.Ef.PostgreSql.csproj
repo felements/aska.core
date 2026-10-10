@@ -1,26 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <PackageId>Aska.Core.EntityStorage.Ef.Postgresql</PackageId>
+    <Title>CQRS entity storage - EF + PostgreSql implementation</Title>
+    <Description>PostgreSQL provider for Aska.Core.EntityStorage, with entity auto-discovery.</Description>
+  </PropertyGroup>
 
-    <PropertyGroup>
-        <PackageId>Aska.Core.EntityStorage.Ef.Postgresql</PackageId>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Title>CQRS entity storage - EF + PostgreSql implementation</Title>
-        <Description>[TBD]</Description>
-        <Version>0.1.0</Version>
-        <Authors>f-elements</Authors>
-        <Company>Aska One Inc.</Company>
-        <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
-    </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Aska.Core.EntityStorage.Ef\Aska.Core.EntityStorage.Ef.csproj" />
+  </ItemGroup>
 
 </Project>

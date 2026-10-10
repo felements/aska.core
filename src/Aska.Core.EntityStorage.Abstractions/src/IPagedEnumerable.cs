@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace Aska.Core.EntityStorage.Abstractions;
 
-namespace Aska.Core.EntityStorage.Abstractions
+public interface IPagedEnumerable<out T> : IEnumerable<T>
 {
-    public interface IPagedEnumerable<out T> : IEnumerable<T>
-    {
-        long TotalCount { get; }
-    }
+    long TotalCount { get; }
 }

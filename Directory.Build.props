@@ -1,0 +1,29 @@
+<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!-- NuGet package metadata, used by the projects that set IsPackable=true. -->
+  <PropertyGroup>
+    <Authors>f-elements</Authors>
+    <Company>Aska One Inc.</Company>
+    <Copyright>Copyright (c) Aska</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/felements/aska.core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
+    <PackageTags>efcore;entity-framework-core;cqrs;specification;mariadb;postgresql;sqlite</PackageTags>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- Package versions come from git tags. -->
+  <ItemGroup>
+    <PackageReference Include="MinVer" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

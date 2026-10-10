@@ -1,25 +1,20 @@
-namespace Aska.Core.Storage.Ef.Sqlite
+using Microsoft.Data.Sqlite;
+
+namespace Aska.Core.EntityStorage.Ef.Sqlite;
+
+public class SqliteConnectionString
 {
-    public class SqliteConnectionString
+    private readonly SqliteConnectionStringBuilder _builder = new();
+
+    public SqliteConnectionString WithDataFile(string dataFile)
     {
-        private string _data;
-
-        public SqliteConnectionString WithDataFile(string data)
-        {
-            _data = data;
-            return this;
-        }
-        
-        public override string ToString()
-        {
-            return $"Data source={_data}";
-        }
-
-        public static implicit operator string(SqliteConnectionString connStr)
-        {
-            return connStr.ToString();
-        }
-        
-        public static SqliteConnectionString Create() => new SqliteConnectionString();
+        _builder.DataSource = dataFile;
+        return this;
     }
+
+    public override string ToString() => _builder.ConnectionString;
+
+    public static implicit operator string(SqliteConnectionString connectionString) => connectionString.ToString();
+
+    public static SqliteConnectionString Create() => new();
 }

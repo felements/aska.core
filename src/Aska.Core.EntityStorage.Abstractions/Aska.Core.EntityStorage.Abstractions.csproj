@@ -1,18 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netstandard2.1</TargetFramework>        
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <PackageId>Aska.Core.EntityStorage.Abstractions</PackageId>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <Title>CQRS entity storage abstractions</Title>
-        <Description>[TBD]</Description>
-        <Version>0.1.0</Version>
-        <Authors>f-elements</Authors>
-        <Company>Aska One Inc.</Company>
-        <RepositoryUrl>https://github.com/felements/aska.core</RepositoryUrl>
-    </PropertyGroup>
+  <PropertyGroup>
+    <IsPackable>true</IsPackable>
+    <Title>CQRS entity storage abstractions</Title>
+    <Description>Provider-agnostic abstractions for Aska.Core.EntityStorage: queries, commands, specifications and entity storage readers and writers.</Description>
+  </PropertyGroup>
 
 </Project>

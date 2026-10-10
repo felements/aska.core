@@ -1,7 +1,6 @@
-﻿namespace Aska.Core.EntityStorage.Abstractions
+﻿namespace Aska.Core.EntityStorage.Abstractions;
+
+public interface ISpecification<in T>
 {
-    public interface ISpecification<in T>
-    {
-        bool IsSatisfiedBy(T o);
-    }
+    bool IsSatisfiedBy(T o);
 }

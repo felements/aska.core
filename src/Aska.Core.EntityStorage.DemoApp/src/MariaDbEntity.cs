@@ -1,28 +1,23 @@
-using System;
-using System.ComponentModel.DataAnnotations;
 using Aska.Core.EntityStorage.DemoApp.Specification;
 
-namespace Aska.Core.EntityStorage.DemoApp
+namespace Aska.Core.EntityStorage.DemoApp;
+
+public interface IMariaDbEntity : IEntity<Guid>;
+
+public class MariaDbEntity : IMariaDbEntity
 {
-    public interface IMariaDbEntity: IEntity<Guid>
+    // Used by EF Core when materializing entities.
+    private MariaDbEntity()
     {
     }
 
-    public class MariaDbEntity : IMariaDbEntity
+    public MariaDbEntity(string name)
     {
-        protected MariaDbEntity()
-        {
-        }
-
-        public MariaDbEntity(string name)
-        {
-            Id = Guid.Empty;
-            Name = name;
-        }
-        
-        [Key]
-        public Guid Id { get; private set; }
-        
-        public string Name { get; private set; }
+        Id = Guid.CreateVersion7();
+        Name = name;
     }
+
+    public Guid Id { get; private set; }
+
+    public string Name { get; private set; } = string.Empty;
 }

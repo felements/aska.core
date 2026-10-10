@@ -1,53 +1,32 @@
-﻿using System.Threading.Tasks;
+using Aska.Core.EntityStorage.DemoApp;
 using Aska.Core.EntityStorage.Ef;
 using Aska.Core.EntityStorage.Ef.MariaDb;
 using Aska.Core.EntityStorage.Ef.PostgreSql;
-using Aska.Core.Storage.Ef;
-using Aska.Core.Storage.Ef.Sqlite;
+using Aska.Core.EntityStorage.Ef.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Aska.Core.EntityStorage.DemoApp
-{
-    class Program
-    {
-        static Task Main(string[] args) => CreateConsoleHost(args).UseConsoleLifetime().Build().RunAsync();
+// Start the databases first: `docker compose up -d` from the repository root.
+var builder = Host.CreateApplicationBuilder(args);
 
-        private static IHostBuilder CreateConsoleHost(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureServices(services =>
-                {
-                    services
-                        .AddHostedService<StorageDemoService>()
-                        .AddEfEntityStorage(opt =>
-                        {
-                            opt.UseMariaDb<DemoMariaDbContext>()
-                                .WithEntitiesAutoDiscovery<IMariaDbEntity>("Aska.Core.EntityStorage.Demo", true)
-                                .WithConnectionString(
-                                    MariaDbConnectionString.Create()
-                                        .WithServer("localhost")
-                                        .WithDatabase("askaone")
-                                        .WithUser("askaone")
-                                        .WithPassword("askaone"));
-                            
-                            opt.UsePostgresql<DemoPsqlContext>()
-                                .WithEntitiesAutoDiscovery<IPsqlEntity>("Aska.Core.EntityStorage.Demo", true)
-                                .WithConnectionString(
-                                    PsqlConnectionString.Create()
-                                        .WithServer("localhost")
-                                        .WithDatabase("askaone")
-                                        .WithUser("askaone")
-                                        .WithPassword("askaone"));
-                            
-                            opt.UseSqlite<DemoSqliteContext>()
-                                .WithEntitiesAutoDiscovery<ISqliteEntity>("Aska.Core.EntityStorage.Demo", true)
-                                .WithConnectionString(SqliteConnectionString.Create()
-                                    .WithDataFile("./../../../demo.db"));
-                        });
-                })
-                .ConfigureLogging(options => options
-                    .SetMinimumLevel(LogLevel.Debug)
-                    .AddConsole());
-    }
-}
+builder.Logging.SetMinimumLevel(LogLevel.Debug);
+
+builder.Services
+    .AddHostedService<StorageDemoService>()
+    .AddEfEntityStorage(storage =>
+    {
+        storage.UseMariaDb<DemoMariaDbContext>()
+            .WithEntitiesAutoDiscovery<IMariaDbEntity>(DemoSettings.EntitiesAssemblyPrefix)
+            .WithConnectionString(DemoSettings.MariaDbConnection);
+
+        storage.UsePostgresql<DemoPsqlContext>()
+            .WithEntitiesAutoDiscovery<IPsqlEntity>(DemoSettings.EntitiesAssemblyPrefix)
+            .WithConnectionString(DemoSettings.PostgreSqlConnection);
+
+        storage.UseSqlite<DemoSqliteContext>()
+            .WithEntitiesAutoDiscovery<ISqliteEntity>(DemoSettings.EntitiesAssemblyPrefix)
+            .WithConnectionString(DemoSettings.SqliteConnection);
+    });
+
+await builder.Build().RunAsync();
